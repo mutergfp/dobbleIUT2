@@ -10,9 +10,12 @@ export default class extends Phaser.State{
     game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
   }
   create(){
+    var music = game.add.audio('MainMenuMusic',100,1);
+    music.play();
     this.createText(game.world.centerX,game.world.centerY-200,"Dobble Online",50,"#FFFFFF","Roboto");
     this.createButtonAndText(game.world.centerX,game.world.centerY+250,'ButtonNormal',
     function(){
+      music.stop();
       this.state.start('Game');
     },"Jouer");
     this.createButtonAndText(game.world.centerX,game.world.centerY+150,'ButtonNormal',

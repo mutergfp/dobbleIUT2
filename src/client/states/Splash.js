@@ -11,9 +11,13 @@ export default class extends Phaser.State {
 
     //this.load.setPreloadSprite(this.loaderBar)
 
+    //IMAGES
     this.load.image('FondDobble','./assets/images/fond/FondDeJeu.png');
     this.load.image('TapisDeJeu','./assets/images/fond/TapisDeJeu.png');
+    //SPRITESHEETS
     this.load.spritesheet('ButtonNormal','./assets/images/button/buttonNormal.png');
+    //AUDIOS
+    this.load.audio('MainMenuMusic','./assets/audio/MainMenuMusic.mp3');
     /* Load your assets here
       w/
       this.load.image(key,url);
