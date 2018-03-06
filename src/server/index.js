@@ -1,7 +1,7 @@
-var http = require('http');
+const http = require('http');
 
 
-var server = http.createServer(function(req, res) {
+let server = http.createServer((req, res) => {
 
   res.writeHead(200);
 

@@ -61,7 +61,12 @@ const clientConfig = {
   ],
   module: {
     rules: [
-      { test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'src/client') },
+      { 
+        test: /\.js$/, 
+        use: ['babel-loader'], 
+        include: path.join(__dirname, 'src/client'),
+        exclude: /(node_modules)/
+      },
       { test: /pixi\.js/, use: ['expose-loader?PIXI'] },
       { test: /phaser-split\.js$/, use: ['expose-loader?Phaser'] },
       { test: /p2\.js/, use: ['expose-loader?p2'] }
@@ -76,7 +81,8 @@ const clientConfig = {
     alias: {
       'phaser': phaser,
       'pixi': pixi,
-      'p2': p2
+      'p2': p2,
+      '@client': path.join(__dirname, 'src/client/')
     }
   }
 }
@@ -94,7 +100,22 @@ const serverConfig = {
     new UglifyJsPlugin({
       sourceMap: true
     })
-  ]
+  ],
+  module: {
+    rules: [
+      { 
+        test: /\.js$/, 
+        use: ['babel-loader'], 
+        include: path.join(__dirname, 'src/server'),
+        exclude: /(node_modules)/
+      },
+    ]
+  },
+  resolve: {
+    alias: {
+      '@server': path.join(__dirname, 'src/server/')
+    }
+  }
 };
 
 
