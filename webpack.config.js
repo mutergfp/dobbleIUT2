@@ -3,6 +3,8 @@ var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+var nodeExternals = require('webpack-node-externals');
+
 const WP_CONFIG = process.env.WP_CONFIG;
 
 // Phaser webpack config
@@ -93,6 +95,7 @@ const clientConfig = {
 const serverConfig = {
   entry: "./src/server/index.js",
   target: "node",
+  externals: [nodeExternals()],
   output: {
     path: __dirname,
     filename: "server.js",
@@ -101,12 +104,13 @@ const serverConfig = {
   watchOptions: {
     ignored: /node_modules/
   },
-  //devtool: "cheap-module-source-map",
+  devtool: 'cheap-module-source-map',
+  /* devtool: "source-map",
   plugins: [
     new UglifyJsPlugin({
       sourceMap: true
     })
-  ],
+  ] ,*/
   module: {
     rules: [
       { 
