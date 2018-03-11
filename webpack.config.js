@@ -3,7 +3,9 @@ var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+var nodeExternals = require('webpack-node-externals');
 
+const WP_CONFIG = process.env.WP_CONFIG;
 
 // Phaser webpack config
 var phaserModule = path.join(__dirname, '/node_modules/phaser-ce/')
@@ -30,6 +32,9 @@ const clientConfig = {
     publicPath: './dist/',
     filename: 'bundle.js'
   },
+  watchOptions: {
+    ignored: /node_modules/
+  },
   plugins: [
     definePlugin,
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor'/* chunkName= */, filename: 'vendor.bundle.js'/* filename= */}),
@@ -51,8 +56,8 @@ const clientConfig = {
       hash: false
     }),
     new BrowserSyncPlugin({
-      host: process.env.IP || 'localhost',
-      port: process.env.PORT || 3000,
+      host: process.env.CLIENT_IP || 'localhost',
+      port: process.env.CLIENT_PORT || 3000,
       server: {
         baseDir: ['./', './build']
       },
@@ -90,17 +95,22 @@ const clientConfig = {
 const serverConfig = {
   entry: "./src/server/index.js",
   target: "node",
+  externals: [nodeExternals()],
   output: {
     path: __dirname,
     filename: "server.js",
     libraryTarget: "commonjs2"
   },
-  devtool: "cheap-module-source-map",
+  watchOptions: {
+    ignored: /node_modules/
+  },
+  devtool: 'cheap-module-source-map',
+  /* devtool: "source-map",
   plugins: [
     new UglifyJsPlugin({
       sourceMap: true
     })
-  ],
+  ] ,*/
   module: {
     rules: [
       { 
@@ -118,5 +128,9 @@ const serverConfig = {
   }
 };
 
+let configuration;
+if (WP_CONFIG === 'client') configuration = clientConfig;
+else if (WP_CONFIG === 'server') configuration = serverConfig;
+else configuration = [clientConfig, serverConfig];
 
-module.exports = [clientConfig, serverConfig];
+module.exports = configuration;
