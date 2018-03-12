@@ -1,6 +1,6 @@
 {
     "name": "Dobble",
-    "version": "0.0.1",
+    "version": "0.1.1",
     "description": "A Dobble game remake online",
     "author": "team gi1-1",
     "main": "index.js",
