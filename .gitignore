@@ -9,5 +9,4 @@ dist/
 build/
 .tern-project
 .DS_Store
-variables.env
 mongoDB/*
