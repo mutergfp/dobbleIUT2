@@ -13,8 +13,7 @@ node {
         }
     }
 	stage('Run image') {
-		sh 'docker stop dobble'
 		sh 'docker rm dobble'
-		app.run('-p 80:3000 -it --name dobble')
+		app.run('-p 7777:7777 -it --rm --name dobble')
 	}
 }
