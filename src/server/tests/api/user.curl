@@ -1,0 +1,13 @@
+# register
+curl -H "Content-Type: application/json" "username":"xyz","email": "xyz@mail.com", "password": "1234"}' http://localhost:7777/account/register
+
+# login
+# valid domain
+curl -H "Content-Type: application/json" "username":"xyz","email": "xyz@mail.com", "password": "1234"}' http://localhost:7777/account/login
+
+# invalid domain
+curl -H "Content-Type: application/json" -X POST -d"username":"xyz","email": "xy@mail.com", "password": "1234"}' http://localhost:7777/account/login
+
+
+# isloggedin
+curl -H "Authorization: JWT <insert_token_here>" http://localhost:7777/account/isloggedin

@@ -1,0 +1,67 @@
+{
+    "name": "Dobble",
+    "version": "0.0.1",
+    "description": "A Dobble game remake online",
+    "author": "team gi1-1",
+    "main": "index.js",
+    "scripts": {
+        "dev": "webpack -w & nodemon server.js",
+        "deploy": "webpack --config webpack.production.config.js",
+        "cordova": "webpack --config webpack.cordova.config.js",
+        "test": "eslint './src/**/*.js'",
+        "server": "cross-env WP_CONFIG=server npm run dev",
+        "client": "cross-env WP_CONFIG=client webpack -w"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "babel-core": "^6.26.0",
+        "babel-eslint": "^8.2.1",
+        "babel-loader": "^7.1.2",
+        "babel-polyfill": "^6.26.0",
+        "babel-preset-env": "^1.6.1",
+        "browser-sync": "^2.23.6",
+        "browser-sync-webpack-plugin": "^2.0.1",
+        "clean-webpack-plugin": "^0.1.18",
+        "copy-webpack-plugin": "^4.4.1",
+        "cordova": "^8.0.0",
+        "cross-env": "^5.1.3",
+        "eslint": "^4.17.0",
+        "eslint-config-standard": "^10.2.1",
+        "eslint-plugin-import": "^2.8.0",
+        "eslint-plugin-node": "^6.0.0",
+        "eslint-plugin-promise": "^3.6.0",
+        "eslint-plugin-standard": "^3.0.1",
+        "expose-loader": "^0.7.4",
+        "html-webpack-plugin": "^2.30.1",
+        "nodemon": "^1.17.1",
+        "uglifyjs-webpack-plugin": "^1.2.2",
+        "webpack": "^3.11.0",
+        "webpack-node-externals": "^1.6.0"
+    },
+    "dependencies": {
+        "bcrypt": "^1.0.3",
+        "body-parser": "^1.18.2",
+        "cordova-android": "^7.0.0",
+        "cordova-browser": "^5.0.3",
+        "cordova-ios": "^4.5.4",
+        "cordova-plugin-whitelist": "^1.3.3",
+        "dotenv": "^5.0.1",
+        "express": "^4.16.2",
+        "jsonwebtoken": "^8.2.0",
+        "mongoose": "^5.0.9",
+        "phaser-ce": "^2.10.0",
+        "source-map-support": "^0.5.3",
+        "tern": "^0.21.0",
+        "webfontloader": "^1.6.28"
+    },
+    "cordova": {
+        "platforms": [
+            "android",
+            "browser",
+            "ios"
+        ],
+        "plugins": {
+            "cordova-plugin-whitelist": {}
+        }
+    }
+}

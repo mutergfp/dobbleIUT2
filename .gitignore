@@ -1,0 +1,13 @@
+node_modules/
+www/
+platforms/
+plugins/
+dist/
+.vscode/
+*.log
+/index.html
+build/
+.tern-project
+.DS_Store
+variables.env
+mongoDB/*
