@@ -254,7 +254,6 @@ exports.register = function (req, res) {
 
 exports.login = function (req, res) {
     User.findOne({
-        email: req.body.email,
         username: req.body.username
     }).then(function (user) {
         if (!user || !user.comparePassword(req.body.password)) {

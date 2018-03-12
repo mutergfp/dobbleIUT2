@@ -18,7 +18,6 @@ exports.register = (req, res) => {
 
 exports.login = (req, res) => {
     User.findOne({
-      email: req.body.email,
       username: req.body.username
     })
     .then(user => {
