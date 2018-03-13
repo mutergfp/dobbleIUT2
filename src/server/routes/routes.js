@@ -11,7 +11,7 @@ router.post('/account/login', userController.login);
 router.get('/account/isloggedin', userController.isLoggedIn);
 
 // cdn service
+router.get('/download/index.html', cdnController.downloadIndex);
 router.get('/download/:filename', cdnController.download);
-
 
 module.exports = router;

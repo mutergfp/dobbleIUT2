@@ -61,7 +61,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -90,12 +90,6 @@ module.exports = require("express");
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports) {
-
-module.exports = require("path");
-
-/***/ }),
-/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -105,7 +99,7 @@ var mongoose = __webpack_require__(0);
 var jsonwebtoken = __webpack_require__(1);
 
 // import environmental variables from our variables.env file
-__webpack_require__(6).config({ path: 'variables.env' });
+__webpack_require__(5).config({ path: 'variables.env' });
 
 // Connect to our Database and handle an bad connections
 mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
@@ -115,22 +109,22 @@ mongoose.connection.on('error', function (err) {
 });
 
 // Invoke Models
-__webpack_require__(7);
+__webpack_require__(6);
 
-var app = __webpack_require__(8);
+var app = __webpack_require__(7);
 app.set('port', process.env.SERVER_PORT || 7777);
 var server = app.listen(app.get('port'), function () {
   console.log('Express running -> PORT ' + server.address().port);
 });
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports) {
 
 module.exports = require("dotenv");
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -162,17 +156,17 @@ UserSchema.methods.comparePassword = function (password) {
 mongoose.model('User', UserSchema);
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var express = __webpack_require__(3);
-var bodyParser = __webpack_require__(9);
-var routes = __webpack_require__(10);
-var sourceMapSupport = __webpack_require__(13);
-var path = __webpack_require__(4);
+var bodyParser = __webpack_require__(8);
+var routes = __webpack_require__(9);
+var sourceMapSupport = __webpack_require__(12);
+var path = __webpack_require__(13);
 
 if (process.env.BUILD_DEV) {
     sourceMapSupport.install();
@@ -191,13 +185,13 @@ app.use('/', routes);
 module.exports = app;
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports) {
 
 module.exports = require("body-parser");
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -205,8 +199,8 @@ module.exports = require("body-parser");
 
 var router = __webpack_require__(3).Router();
 
-var userController = __webpack_require__(11);
-var cdnController = __webpack_require__(12);
+var userController = __webpack_require__(10);
+var cdnController = __webpack_require__(11);
 
 router.use(userController.decodeJWT);
 
@@ -216,12 +210,13 @@ router.post('/account/login', userController.login);
 router.get('/account/isloggedin', userController.isLoggedIn);
 
 // cdn service
+router.get('/download/index.html', cdnController.downloadIndex);
 router.get('/download/:filename', cdnController.download);
 
 module.exports = router;
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -312,26 +307,39 @@ exports.isLoggedIn = function (req, res) {
 };
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var path = __webpack_require__(4);
+var path = __webpack_require__(13);
 
 exports.download = function (req, res, next) {
     res.download(path.resolve(process.cwd(), 'dist/' + req.params.filename), function (err) {
         if (err) return next(err);
-        console.log(req.params.filename + ' sent');
+        console.log(req.params.filename + ' was sent');
     });
 };
+
+exports.downloadIndex = function (req, res, next) {
+    res.download(path.resolve(process.cwd(), 'index.html'), function (err) {
+        if (err) return next(err);
+        console.log('index.html was sent');
+    });
+};
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+module.exports = require("source-map-support");
 
 /***/ }),
 /* 13 */
 /***/ (function(module, exports) {
 
-module.exports = require("source-map-support");
+module.exports = require("path");
 
 /***/ })
 /******/ ]);
