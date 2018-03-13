@@ -5,7 +5,7 @@
     "author": "team gi1-1",
     "main": "index.js",
     "scripts": {
-        "dev": "webpack -w & nodemon server.js",
+        "dev": "webpack -w && nodemon server.js",
         "deploy": "webpack --config webpack.production.config.js",
         "cordova": "webpack --config webpack.cordova.config.js",
         "test": "eslint './src/**/*.js'",

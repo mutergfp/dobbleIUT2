@@ -6,7 +6,7 @@ const cdnController = require('@server/services/cdn/cdnController');
 router.use(userController.decodeJWT);
 
 // user service
-router.post('/account/register', userController.register);
+router.post('/account/register', userController.validateFields, userController.register);
 router.post('/account/login', userController.login);
 router.get('/account/isloggedin', userController.isLoggedIn);
 
