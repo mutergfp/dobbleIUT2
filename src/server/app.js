@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // cdn middleware
+app.use('/download/', express.static(path.join(process.cwd(), 'dist')));
 app.use('/download/assets', express.static(path.join(process.cwd(), 'assets')));
 
 app.use('/', routes);
