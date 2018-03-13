@@ -11,7 +11,7 @@
         "test": "eslint './src/**/*.js'",
         "server": "cross-env WP_CONFIG=server npm run dev",
         "client": "cross-env WP_CONFIG=client webpack -w",
-        "prod": "webpack -p"
+        "prod": "webpack -p && node server.js"
     },
     "license": "MIT",
     "devDependencies": {
