@@ -10,7 +10,8 @@
         "cordova": "webpack --config webpack.cordova.config.js",
         "test": "eslint './src/**/*.js'",
         "server": "cross-env WP_CONFIG=server npm run dev",
-        "client": "cross-env WP_CONFIG=client webpack -w"
+        "client": "cross-env WP_CONFIG=client webpack -w",
+        "prod": "webpack -p"
     },
     "license": "MIT",
     "devDependencies": {
