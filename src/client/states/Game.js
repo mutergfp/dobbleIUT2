@@ -23,59 +23,94 @@ export default class extends Phaser.State {
      var playerCard = new Card({
        game:this.game,
        x:game.world.centerX,
-       y:game.world.centerY+215
+       y:game.world.centerY+215,
+       asset:'cardPlayer'
      },"Player1"
      ,this.createBlankCircle(game.world.centerX, game.world.centerY+215,'cardPlayer'));
 
-     playerCard.displayCard(this.listLogoPlayer);
+     for(var i = 0; i<8; i++){
+       this.createSpriteLogo(playerCard.x,playerCard.y,this.listLogoPlayer[i]);
+     }
+     //playerCard.displayCard(playerCard.x,playerCard.y,this.listLogoPlayer);
 
+     var deckCard = new Card({
+       game:this.game,
+       x:game.world.centerX,
+       y:game.world.centerY-30,
+       asset:'cardDeck'
+     },"Deck"
+     ,this.createBlankCircle(game.world.centerX, game.world.centerY-30,'cardDeck'));
 
-    //Player circle
-    /*var playerCircle = {
-      cercle: this.createWhiteCircle(game.world.centerX, game.world.centerY+215,180),
-      logos: new Card({Player({game:game,
-        x:game.world.centerX,
-        y:game.world.centerY},'Player1',1)})
-        .displayCard(playerCircle.cercle,this.listLogoPlayer)
-   }*/
+     //Sens trigonométrique à partir de la carte du joueur
+     var opponentCard1 = new Card({
+       game:this.game,
+       x:game.world.centerX+175,
+       y:game.world.centerY+95,
+       asset:'cardOpponent'
+     },"Opponent1"
+     ,this.createBlankCircle(game.world.centerX+175, game.world.centerY+95,'cardOpponent'));
 
+     var opponentCard2 = new Card({
+       game:this.game,
+       x:game.world.centerX+200,
+       y:game.world.centerY-30,
+       asset:'cardOpponent'
+     },"Opponent2"
+     ,this.createBlankCircle(game.world.centerX+200, game.world.centerY-30,'cardOpponent'));
 
-    //Card deck
-    /*var deckCircle = this.createWhiteCircle(game.world.centerX, game.world.centerY-30,260);
+     var opponentCard3 = new Card({
+       game:this.game,
+       x:game.world.centerX+175,
+       y:game.world.centerY-155,
+       asset:'cardOpponent'
+     },"Opponent3"
+     ,this.createBlankCircle(game.world.centerX+175, game.world.centerY-155,'cardOpponent'));
 
-    //
-    this.createWhiteCircle(game.world.centerX+175, game.world.centerY+95,100);
-    this.createWhiteCircle(game.world.centerX-175, game.world.centerY+95,100);
-    this.createWhiteCircle(game.world.centerX+200, game.world.centerY-30,100);
-    this.createWhiteCircle(game.world.centerX-200, game.world.centerY-30,100);
-    this.createWhiteCircle(game.world.centerX+175, game.world.centerY-155,100);
-    this.createWhiteCircle(game.world.centerX-175, game.world.centerY-155,100);
-    this.createWhiteCircle(game.world.centerX, game.world.centerY-235,100);
+     var opponentCard4 = new Card({
+       game:this.game,
+       x:game.world.centerX,
+       y:game.world.centerY-235,
+       asset:'cardOpponent'
+     },"Opponent4"
+     ,this.createBlankCircle(game.world.centerX, game.world.centerY-235,'cardOpponent'));
 
-    listLogoPlayer.add('cartman');
-    listLogoPlayer.add('discord');
-    listLogoPlayer.add('docker');
-    listLogoPlayer.add('dofus');
-    listLogoPlayer.add('drive');
-    listLogoPlayer.add('facebook');
-    */
+     var opponentCard5 = new Card({
+       game:this.game,
+       x:game.world.centerX-175,
+       y:game.world.centerY-155,
+       asset:'cardOpponent'
+     },"Opponent5"
+     ,this.createBlankCircle(game.world.centerX-175, game.world.centerY-155,'cardOpponent'));
 
+     var opponentCard6 = new Card({
+       game:this.game,
+       x:game.world.centerX-200,
+       y:game.world.centerY-30,
+       asset:'cardOpponent'
+     },"Opponent6"
+     ,this.createBlankCircle(game.world.centerX-200, game.world.centerY-30,'cardOpponent'));
+
+     var opponentCard7 = new Card({
+       game:this.game,
+       x:game.world.centerX-175,
+       y:game.world.centerY+95,
+       asset:'cardOpponent'
+     },"Opponent7"
+     ,this.createBlankCircle(game.world.centerX-175, game.world.centerY+95,'cardOpponent'));
 
   }
 
-  createWhiteCircle(x,y,radius){
-    var rondJeu = game.add.graphics(0,0);
 
-    rondJeu.beginFill(0xFFFFFF, 1);
-    rondJeu.drawCircle(x, y,radius);
+  createSpriteLogo(x,y,key){
+    var sprite = this.game.add.sprite(x,y,key);
+    sprite.scale.set(0.05);
+    sprite.anchor.set(0.5);
   }
 
   createBlankCircle(x,y,key){
-    var blankCircle = game.add.spritesheet(x,y,key);
-    blankCircle.anchor = 0.5,0.5;
+    var blankCircle = game.add.sprite(x,y,key);
+    blankCircle.anchor.set(0.5);
   }
 
-  render() {
 
-  }
 }

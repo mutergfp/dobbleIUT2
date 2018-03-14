@@ -24,7 +24,7 @@ export default class extends Phaser.State {
       //BlankCard
       this.load.spritesheet('cardDeck',PATHLOCAL+'images/cardDeck.png');
       this.load.spritesheet('cardPlayer',PATHLOCAL+'images/cardPlayer.png');
-      this.load.spritesheet('cardOponent',PATHLOCAL+'images/cardOponent.png');
+      this.load.spritesheet('cardOpponent',PATHLOCAL+'images/cardOpponent.png');
 
     //AUDIOS
     this.load.audio('MainMenuMusic',PATHLOCAL+'audio/MainMenuMusic.mp3');
