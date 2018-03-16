@@ -3,10 +3,11 @@ import { spriteSizeFactory } from '../utils'
 
 export default class Card extends Phaser.Sprite{
 
-  constructor ({ game, x, y, asset }, player) {
-    super(game, x, y, asset);
-    this.player = player
-    
+
+  constructor ({ game, x, y, asset}, player, card) {
+    super(game, x, y,asset);
+    this.player = player;
+    this.card = card;
   }
 
 
@@ -16,8 +17,10 @@ export default class Card extends Phaser.Sprite{
   }
 
   playerCardGeneration(){
-    if(this.player.id == 0){
-
+    var cards = new Array();
+    cards = this.fetch.callCard();
+    if(player.id == 0){
+      //this.player.
     }
   }
 
@@ -26,17 +29,14 @@ export default class Card extends Phaser.Sprite{
     //this.player[i]
     //}
   }
+
+
+
+  // render() {
+  //    var x=16
+  //   for(var i = 0;i<8;i++)
+  //   this.game.debug.text(this.listLogoPlayer[i], 16,x);
+  //   x = x+16;
+  // }
+
 }
-
-
-
-
-
-
-
-var card = new Card({
-  game: this.game,
-  x: 0,
-  y: 0,
-  asset: ''
-});

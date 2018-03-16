@@ -140,13 +140,6 @@ var UserSchema = mongoose.Schema({
         unique: true,
         required: true
     },
-    email: {
-        type: String,
-        unique: true,
-        lowercase: true,
-        trim: true,
-        required: true
-    },
     hash_password: {
         type: String
     },
@@ -172,7 +165,8 @@ mongoose.model('User', UserSchema);
 var express = __webpack_require__(3);
 var bodyParser = __webpack_require__(8);
 var routes = __webpack_require__(9);
-var sourceMapSupport = __webpack_require__(13);
+var sourceMapSupport = __webpack_require__(11);
+var path = __webpack_require__(12);
 
 if (process.env.BUILD_DEV) {
     sourceMapSupport.install();
@@ -182,6 +176,10 @@ var app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// cdn middleware
+app.use('/download/', express.static(path.join(process.cwd(), 'dist')));
+app.use('/download/assets', express.static(path.join(process.cwd(), 'assets')));
 
 app.use('/', routes);
 
@@ -203,17 +201,13 @@ module.exports = require("body-parser");
 var router = __webpack_require__(3).Router();
 
 var userController = __webpack_require__(10);
-var cdnController = __webpack_require__(11);
 
 router.use(userController.decodeJWT);
 
 // user service
-router.post('/account/register', userController.register);
+router.post('/account/register', userController.validateFields, userController.register);
 router.post('/account/login', userController.login);
 router.get('/account/isloggedin', userController.isLoggedIn);
-
-// cdn service
-router.get('/download/:filename', cdnController.download);
 
 module.exports = router;
 
@@ -242,9 +236,22 @@ exports.register = function (req, res) {
     });
 };
 
+exports.validateFields = function (req, res, next) {
+    var _req$body = req.body,
+        confirmPassword = _req$body.confirmPassword,
+        password = _req$body.password;
+
+    if (confirmPassword && password && confirmPassword === password) {
+        console.log('coucou');
+        return next();
+    }
+    res.status(400).json({
+        message: 'Invalid confirm password'
+    });
+};
+
 exports.login = function (req, res) {
     User.findOne({
-        email: req.body.email,
         username: req.body.username
     }).then(function (user) {
         if (!user || !user.comparePassword(req.body.password)) {
@@ -254,7 +261,6 @@ exports.login = function (req, res) {
         }
         return res.json({
             token: jwt.sign({
-                email: user.email,
                 username: user.username,
                 _id: user._id
             }, 'secret_key')
@@ -298,31 +304,15 @@ exports.isLoggedIn = function (req, res) {
 
 /***/ }),
 /* 11 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-var path = __webpack_require__(12);
-
-exports.download = function (req, res, next) {
-    res.download(path.resolve(process.cwd(), 'dist/' + req.params.filename), function (err) {
-        if (err) return next(err);
-        console.log(req.params.filename + ' sent');
-    });
-};
+module.exports = require("source-map-support");
 
 /***/ }),
 /* 12 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports) {
-
-module.exports = require("source-map-support");
 
 /***/ })
 /******/ ]);

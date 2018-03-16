@@ -2,12 +2,12 @@ node_modules/
 www/
 platforms/
 plugins/
-dist/
+dist/*.js
+dist/*.map
 .vscode/
 *.log
 /index.html
 build/
 .tern-project
 .DS_Store
-variables.env
 mongoDB/*

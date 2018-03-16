@@ -105,12 +105,12 @@ const serverConfig = {
     ignored: /node_modules/
   },
   devtool: 'cheap-module-source-map',
-  /* devtool: "source-map",
-  plugins: [
+  //devtool: "source-map",
+  /* plugins: [
     new UglifyJsPlugin({
       sourceMap: true
     })
-  ] ,*/
+  ] , */
   module: {
     rules: [
       { 

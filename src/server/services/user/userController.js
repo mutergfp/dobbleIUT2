@@ -16,9 +16,19 @@ exports.register = (req, res) => {
         }));
 }
 
+exports.validateFields = (req, res, next) => {
+    const { confirmPassword, password } = req.body;
+    if (confirmPassword && password && confirmPassword === password) {
+        console.log('coucou');
+        return next();
+    }
+    res.status(400).json({
+        message: 'Invalid confirm password'
+    });
+}
+
 exports.login = (req, res) => {
     User.findOne({
-      email: req.body.email,
       username: req.body.username
     })
     .then(user => {
@@ -28,8 +38,7 @@ exports.login = (req, res) => {
             });
         }
         return res.json({ 
-            token: jwt.sign({ 
-                email: user.email, 
+            token: jwt.sign({
                 username: user.username, 
                 _id: user._id 
             }, 'secret_key') 

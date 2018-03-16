@@ -11,7 +11,7 @@ node {
         app.inside {
             sh 'echo "Tests passed"'
         }
-    }
+    }   
 	stage('Run image') {
 		sh 'docker stop dobble'
 		app.run('-p 7777:7777 -it --rm --name dobble')
