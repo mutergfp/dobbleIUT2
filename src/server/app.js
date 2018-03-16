@@ -14,6 +14,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//Cross origin
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin","*");
+    res.header("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 // cdn middleware
 app.use('/download/', express.static(path.join(process.cwd(), 'dist')));
 app.use('/download/assets', express.static(path.join(process.cwd(), 'assets')));
