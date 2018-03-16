@@ -15,5 +15,6 @@ node {
 	stage('Run image') {
 		sh 'docker stop dobble'
 		app.run('-p 7777:7777 -it --rm --link mongoDobble --name dobble')
+		sh 'docker network connect network dobble --alias dobble'
 	}
 }
