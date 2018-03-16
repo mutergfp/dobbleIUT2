@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
 import { centerGameObjects } from '../utils'
-const PATHSERV = 'http://localhost:7777/download/assets/'
+const PATHSERV = 'http://gi1.univ-lr.fr:7777/download/assets/'
 const PATHLOCAL = './assets/'
-const PATHAPI = 'http://localhost:82/image/'
+const PATHAPI = 'http://gi1.univ-lr.fr:82/image/'
 
 var fetchingImages = false;
 
@@ -13,7 +13,7 @@ export default class extends Phaser.State {
 
   preload () {
     //LOGOS
-    fetch('http://localhost:82/images')
+    fetch('http://gi1.univ-lr.fr:82/images')
       .then(res => res.json())
       .then(res => {
         res.forEach(idImage => {
