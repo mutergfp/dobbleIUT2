@@ -8,7 +8,15 @@ export default class Player extends Phaser.Sprite {
     this.id = id;
     this.pseudo = pseudo;
     this.points = 0;
-    //this.listLogo = {"android.png", "anneau.png","apple.png","appstore.png",bitcoin.png}
+  }
+
+  initPlayer(){
+    var listPlayer = null;/* Methode de récuperation des joueurs */
+    for (var i = 0; i < listPlayer.length;i++){
+      
+    }
+
+
   }
 
   incrementPoint(){

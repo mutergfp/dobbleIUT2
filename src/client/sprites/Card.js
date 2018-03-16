@@ -30,19 +30,7 @@ export default class Card extends Phaser.Sprite{
     //}
   }
 
-  displayCard(listCard){
-    var listCardReturn = Array();
-    for(var x = 0; x<8; x++){
-      //this.createSpriteLogo(this.x,this.y,listCard[x]);
-      listCardReturn.push(game.add.text(this.x,this.y,listCard[x]));
-    }
-    return listCardReturn
-  }
 
-  createSpriteLogo(x,y,key){
-    var sprite = this.game.add.sprite(x,y,key);
-    sprite.anchor.set(0.5);
-  }
 
   // render() {
   //    var x=16

@@ -2,6 +2,9 @@ import Phaser from 'phaser'
 import { centerGameObjects } from '../utils'
 const PATHSERV = 'http://localhost:7777/download/assets/'
 const PATHLOCAL = './assets/'
+const PATHAPI = 'http://localhost:82/image/'
+
+var fetchingImages = false;
 
 export default class extends Phaser.State {
 
@@ -9,11 +12,18 @@ export default class extends Phaser.State {
   }
 
   preload () {
-    //this.loaderBg = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBg')
-    //this.loaderBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBar')
-    //centerGameObjects([this.loaderBg, this.loaderBar])
+    //LOGOS
+    fetch('http://localhost:82/images')
+      .then(res => res.json())
+      .then(res => {
+        res.forEach(idImage => {
+          this.load.spritesheet(idImage.toString(),PATHAPI+idImage);
+        });
+        return true;
+      })
+      .then(res => fetchingImages = res);
 
-    //this.load.setPreloadSprite(this.loaderBar)
+    this.load.crossOrigin = "anonymous"; //Obligate to fix cross-origin Error
 
     //IMAGES
     this.load.image('FondDobble',PATHLOCAL+'images/fond/FondDeJeu.png');
@@ -22,29 +32,12 @@ export default class extends Phaser.State {
     //SPRITESHEETS
     this.load.spritesheet('ButtonNormal',PATHLOCAL+'images/button/buttonNormal.png');
       //BlankCard
-      this.load.spritesheet('cardDeck',PATHLOCAL+'images/cardDeck.png');
-      this.load.spritesheet('cardPlayer',PATHLOCAL+'images/cardPlayer.png');
-      this.load.spritesheet('cardOpponent',PATHLOCAL+'images/cardOpponent.png');
+    this.load.spritesheet('cardDeck',PATHLOCAL+'images/cardDeck.png');
+    this.load.spritesheet('cardPlayer',PATHLOCAL+'images/cardPlayer.png');
+    this.load.spritesheet('cardOpponent',PATHLOCAL+'images/cardOpponent.png');
 
     //AUDIOS
     this.load.audio('MainMenuMusic',PATHLOCAL+'audio/MainMenuMusic.mp3');
-
-    //LOGOS
-    this.load.spritesheet('android',PATHLOCAL+'images/logo/android.png');
-    this.load.spritesheet('anneau',PATHLOCAL+'images/logo/anneau.png');
-    this.load.spritesheet('apple',PATHLOCAL+'images/logo/apple.png');
-    this.load.spritesheet('appstore',PATHLOCAL+'images/logo/appstore.png');
-    this.load.spritesheet('bitcoin',PATHLOCAL+'images/logo/bitcoin.png');
-    this.load.spritesheet('blizzard',PATHLOCAL+'images/logo/blizzard.png');
-    this.load.spritesheet('bluetooth',PATHLOCAL+'images/logo/bluetooth.png');
-    this.load.spritesheet('c',PATHLOCAL+'images/logo/c.png');
-    this.load.spritesheet('cartman',PATHLOCAL+'images/logo/cartman.png');
-    this.load.spritesheet('discord',PATHLOCAL+'images/logo/discord.png');
-    this.load.spritesheet('docker',PATHLOCAL+'images/logo/docker.png');
-    this.load.spritesheet('dofus',PATHLOCAL+'images/logo/dofus.png');
-    this.load.spritesheet('drive',PATHLOCAL+'images/logo/drive.png');
-    this.load.spritesheet('facebook',PATHLOCAL+'images/logo/facebook.png');
-
 
     /* Load your assets here
       w/
@@ -56,6 +49,11 @@ export default class extends Phaser.State {
   }
 
   create () {
-    this.state.start('MainMenu');
+  }
+
+  update() {
+    if (fetchingImages) {
+      this.state.start('MainMenu');
+    }
   }
 }
