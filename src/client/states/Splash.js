@@ -12,6 +12,13 @@ export default class extends Phaser.State {
   }
 
   preload () {
+    this.load.spritesheet('loader-bar',PATHLOCAL+'images/loader-bar.png');
+    this.load.spritesheet('loader-bg',PATHLOCAL+'images/loader-bg.png');
+    this.background = this.add.sprite(0, 0, 'loader-bg');
+    this.preloadBar = this.add.sprite(300, 400, 'loader-bar');
+
+    this.load.setPreloadSprite(this.preloadBar);
+
     //LOGOS
     fetch('http://gi1.univ-lr.fr:82/images')
       .then(res => res.json())
@@ -26,7 +33,7 @@ export default class extends Phaser.State {
     this.load.crossOrigin = "anonymous"; //Obligate to fix cross-origin Error
 
     //IMAGES
-    this.load.image('FondDobble',PATHLOCAL+'images/fond/FondDeJeu.png');
+    this.load.image('FondDeJeu',PATHLOCAL+'images/fond/FondDeJeu.png');
     this.load.image('TapisDeJeu',PATHLOCAL+'images/fond/TapisDeJeu.png');
 
     //SPRITESHEETS
@@ -49,6 +56,7 @@ export default class extends Phaser.State {
   }
 
   create () {
+    this.preloadBar.cropEnabled = false;
   }
 
   update() {

@@ -3,8 +3,9 @@ import Phaser from 'phaser'
 import Card from '../sprites/Card'
 
 export default class extends Phaser.State {
+  
   init() {
-    game.add.image(game.world.centerX,game.world.centerY, 'TapisDeJeu').anchor.set(0.5);
+    game.add.image(game.world.centerX,game.world.centerY,'TapisDeJeu').anchor.set(0.5);
   }
   preload() { }
 
@@ -13,20 +14,14 @@ export default class extends Phaser.State {
     /*------------------------------------------------
     |     Creation of card, and affectate logos      |
     ------------------------------------------------*/
-    this.listLogoPlayer = [1,2,3,4,5,6,7,8];
 
-    // this.listLogoPlayer = new Array();
-    // this.listLogoPlayer.push('1')
-    // this.listLogoPlayer.push('2');
-    // this.listLogoPlayer.push('3');
-    // this.listLogoPlayer.push('4');
-    // this.listLogoPlayer.push('5');
-    // this.listLogoPlayer.push('6');
-    // this.listLogoPlayer.push('7');
-    // this.listLogoPlayer.push('8');
+    this.listLogoPlayer = [1,2,3,4,5,6,7,8];
+    this.listLogoDeck = [8,9,10,11,12,13,14,15];
 
     this.x1 = 0;
     this.y1 = 0;
+
+    this.click = false;
 
     var tabOpponentCard = new Array();
 
@@ -36,11 +31,12 @@ export default class extends Phaser.State {
        y:game.world.centerY+215,
        asset:'cardPlayer'
      },"Player1"
-     ,this.createBlankCircle(game.world.centerX, game.world.centerY+215,'cardPlayer'));
+     ,this.createBlankCircle(game.world.centerX, game.world.centerY+215,'cardPlayer')
+     ,this.listLogoPlayer);
 
      for(var i = 0; i<=8; i++){
        this.determinePlayerLogoLocation(i,this.x1,this.y1);
-       this.createSpriteLogo(playerCard.x+this.x1,playerCard.y+this.y1,this.listLogoPlayer[i],0.12);
+       this.createSpriteLogo(playerCard.x+this.x1,playerCard.y+this.y1,playerCard.logos[i],0.12);
      }
 
      var deckCard = new Card({
@@ -49,14 +45,16 @@ export default class extends Phaser.State {
        y:game.world.centerY-30,
        asset:'cardDeck'
      },"Deck"
-     ,this.createBlankCircle(game.world.centerX, game.world.centerY-30,'cardDeck'));
+     ,this.createBlankCircle(game.world.centerX, game.world.centerY-30,'cardDeck')
+     ,this.listLogoDeck);
 
      for(var i = 0; i<=8; i++){
        this.determineDeckLogoLocation(i,this.x1,this.y1);
-       this.createButtonLogo(deckCard.x+this.x1,deckCard.y+this.y1,this.listLogoPlayer[i],0.20);
+       this.createButtonLogo(deckCard.x+this.x1,deckCard.y+this.y1,deckCard.logos[i],0.20);
      }
 
      //Sens trigonométrique à partir de la carte du joueur
+
      var opponentCard1 = new Card({
        game:this.game,
        x:game.world.centerX+175,
@@ -138,9 +136,11 @@ export default class extends Phaser.State {
      |             Game timer creation                |
      ------------------------------------------------*/
 
-     /*var timerGame = this.game.Timer.add(60000,function(){
-
-     })*/
+     this.timerGame = game.time.create(false);
+     this.timerGame.add(10000,function(){
+       this.state.start('EndScreen')
+     },this);
+     this.timerGame.start();
 
   }
 
@@ -152,10 +152,10 @@ export default class extends Phaser.State {
   }
 
   createButtonLogo(x,y,key,scale){
-    var sprite = this.game.add.button(x,y,key,
-      function(){
-        this.verifyClick();
-    });
+    var sprite = this.game.add.button(x,y,key);
+    sprite.callback = function(){
+      this.click = this.compareLogos(sprite.key);
+    }
     sprite.scale.set(scale);
     sprite.anchor.set(0.5);
     sprite.angle = game.rnd.integer();
@@ -310,22 +310,23 @@ export default class extends Phaser.State {
       }
   }
 
-  compareLogos(listLogoPlayer, logoClickDeck){
-    for(var i = 0; i<listLogoPlayer.lenght; i++){
+  compareLogos(logoClickDeck){
+    for(var i = 0; i<playerCard.logos.lenght; i++){
       if(listLogoPlayer[i]==logoClickDeck){
-
+        return true;
       }
       else{
-
+        return false;
       }
     }
   }
-  
+
   update(){
 
   }
 
   render(){
-
+    game.debug.text('Time until event: ' + this.timerGame.duration.toFixed(0), 32, 32);
+    game.debug.text('GoodClick: ' + this.click, 32, 64);
   }
 }

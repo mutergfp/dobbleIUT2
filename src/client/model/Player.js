@@ -12,8 +12,9 @@ export default class Player extends Phaser.Sprite {
 
   initPlayer(){
     var listPlayer = null;/* Methode de récuperation des joueurs */
+
     for (var i = 0; i < listPlayer.length;i++){
-      
+      listPlayer.push(player);
     }
 
 
