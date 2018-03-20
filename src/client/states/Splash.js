@@ -12,12 +12,8 @@ export default class extends Phaser.State {
   }
 
   preload () {
-    this.load.spritesheet('loader-bar',PATHLOCAL+'images/loader-bar.png');
-    this.load.spritesheet('loader-bg',PATHLOCAL+'images/loader-bg.png');
-    this.background = this.add.sprite(0, 0, 'loader-bg');
-    this.preloadBar = this.add.sprite(300, 400, 'loader-bar');
-
-    this.load.setPreloadSprite(this.preloadBar);
+    this.load.image('loader-bar','./assets/images/loader-bar.png');
+    this.load.image('loader-bg','./assets/images/loader-bg.png');
 
     //LOGOS
     fetch('http://gi1.univ-lr.fr:82/images')
@@ -56,7 +52,10 @@ export default class extends Phaser.State {
   }
 
   create () {
-    this.preloadBar.cropEnabled = false;
+    this.background = this.add.sprite(game.world.centerX, game.world.centerY, 'loader-bg')//.anchor.set(0.5);
+    this.preloadBar = this.add.sprite(game.world.centerX, game.world.centerY, 'loader-bar')//.anchor.set(0.5);
+
+    this.load.setPreloadSprite(this.preloadBar);
   }
 
   update() {

@@ -5,11 +5,11 @@ import config from '../config';
 export default class extends Phaser.State {
   init() {
     this.stage.backgroundColor = '#FFFFFF';
-    /*this.fontsReady = false
-    this.fontsLoaded = this.fontsLoaded.bind(this)
+    // this.fontsReady = false
+    // this.fontsLoaded = this.fontsLoaded.bind(this)
   }
 
-  preload() {
+  preload() {}
   /*  if (config.webfonts.length) {
       WebFont.load({
         google: {
@@ -26,7 +26,6 @@ export default class extends Phaser.State {
     this.load.image('loaderBar', './assets/images/loader-bar.png');*/
     //this.scale.pageAlignHorizontally = true;
     //this.scale.pageAlignVertically = true;
-  }
 
   render() {
     /*
@@ -37,10 +36,12 @@ export default class extends Phaser.State {
       this.state.start('Splash')
     }
     */
+
     this.state.start('Splash');
   }
 
   /*fontsLoaded() {
     this.fontsReady = true
   }*/
+
 }

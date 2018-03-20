@@ -1,9 +1,10 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import Card from '../sprites/Card'
+import Player from '../model/Player'
 
 export default class extends Phaser.State {
-  
+
   init() {
     game.add.image(game.world.centerX,game.world.centerY,'TapisDeJeu').anchor.set(0.5);
   }
@@ -23,23 +24,32 @@ export default class extends Phaser.State {
 
     this.click = false;
 
-    var tabOpponentCard = new Array();
+    this.tabOpponentCard = new Array();
 
-     var playerCard = new Card({
+    //CARD PLAYER
+    this.player = new Player({
+      game:this.game,
+      x:game.world.centerX,
+      y:game.world.centerY+215,
+      assets:null
+    },'Player1', 1);
+
+      this.playerCard = new Card({
        game:this.game,
        x:game.world.centerX,
        y:game.world.centerY+215,
        asset:'cardPlayer'
-     },"Player1"
+     },this.player
      ,this.createBlankCircle(game.world.centerX, game.world.centerY+215,'cardPlayer')
      ,this.listLogoPlayer);
 
      for(var i = 0; i<=8; i++){
        this.determinePlayerLogoLocation(i,this.x1,this.y1);
-       this.createSpriteLogo(playerCard.x+this.x1,playerCard.y+this.y1,playerCard.logos[i],0.12);
+       this.createSpriteLogo(this.playerCard.x+this.x1,this.playerCard.y+this.y1,this.playerCard.logos[i],0.12);
      }
 
-     var deckCard = new Card({
+     //CARD DECK
+     this.deckCard = new Card({
        game:this.game,
        x:game.world.centerX,
        y:game.world.centerY-30,
@@ -50,7 +60,7 @@ export default class extends Phaser.State {
 
      for(var i = 0; i<=8; i++){
        this.determineDeckLogoLocation(i,this.x1,this.y1);
-       this.createButtonLogo(deckCard.x+this.x1,deckCard.y+this.y1,deckCard.logos[i],0.20);
+       this.createButtonLogo(this.deckCard.x+this.x1,this.deckCard.y+this.y1,this.deckCard.logos[i],0.20);
      }
 
      //Sens trigonométrique à partir de la carte du joueur
@@ -63,7 +73,7 @@ export default class extends Phaser.State {
      },"Opponent1"
      ,this.createBlankCircle(game.world.centerX+175, game.world.centerY+95,'cardOpponent'));
 
-     tabOpponentCard.push(opponentCard1);
+     this.tabOpponentCard.push(opponentCard1);
 
      var opponentCard2 = new Card({
        game:this.game,
@@ -73,7 +83,7 @@ export default class extends Phaser.State {
      },"Opponent2"
      ,this.createBlankCircle(game.world.centerX+200, game.world.centerY-30,'cardOpponent'));
 
-     tabOpponentCard.push(opponentCard2);
+     this.tabOpponentCard.push(opponentCard2);
 
      var opponentCard3 = new Card({
        game:this.game,
@@ -83,7 +93,7 @@ export default class extends Phaser.State {
      },"Opponent3"
      ,this.createBlankCircle(game.world.centerX+175, game.world.centerY-155,'cardOpponent'));
 
-     tabOpponentCard.push(opponentCard3);
+     this.tabOpponentCard.push(opponentCard3);
 
      var opponentCard4 = new Card({
        game:this.game,
@@ -93,7 +103,7 @@ export default class extends Phaser.State {
      },"Opponent4"
      ,this.createBlankCircle(game.world.centerX, game.world.centerY-235,'cardOpponent'));
 
-     tabOpponentCard.push(opponentCard4);
+     this.tabOpponentCard.push(opponentCard4);
 
      var opponentCard5 = new Card({
        game:this.game,
@@ -103,7 +113,7 @@ export default class extends Phaser.State {
      },"Opponent5"
      ,this.createBlankCircle(game.world.centerX-175, game.world.centerY-155,'cardOpponent'));
 
-     tabOpponentCard.push(opponentCard5);
+     this.tabOpponentCard.push(opponentCard5);
 
      var opponentCard6 = new Card({
        game:this.game,
@@ -113,7 +123,7 @@ export default class extends Phaser.State {
      },"Opponent6"
      ,this.createBlankCircle(game.world.centerX-200, game.world.centerY-30,'cardOpponent'));
 
-     tabOpponentCard.push(opponentCard6);
+     this.tabOpponentCard.push(opponentCard6);
 
      var opponentCard7 = new Card({
        game:this.game,
@@ -123,12 +133,12 @@ export default class extends Phaser.State {
      },"Opponent7"
      ,this.createBlankCircle(game.world.centerX-175, game.world.centerY+95,'cardOpponent'));
 
-     tabOpponentCard.push(opponentCard7);
+     this.tabOpponentCard.push(opponentCard7);
 
-     for (var i = 0;i<tabOpponentCard.length;i++){
+     for (var i = 0;i<this.tabOpponentCard.length;i++){
        for(var i2 = 0; i2<=8; i2++){
          this.determineOpponentLogoLocation(i2,this.x1,this.y1);
-         this.createSpriteLogo(tabOpponentCard[i].x+this.x1,tabOpponentCard[i].y+this.y1,this.listLogoPlayer[i2],0.07);
+         this.createSpriteLogo(this.tabOpponentCard[i].x+this.x1,this.tabOpponentCard[i].y+this.y1,this.listLogoPlayer[i2],0.07);
        }
      }
 
@@ -138,7 +148,7 @@ export default class extends Phaser.State {
 
      this.timerGame = game.time.create(false);
      this.timerGame.add(10000,function(){
-       this.state.start('EndScreen')
+       this.state.start('EndScreen',true,false,this.playerCard,this.tabOpponentCard);
      },this);
      this.timerGame.start();
 
@@ -152,10 +162,7 @@ export default class extends Phaser.State {
   }
 
   createButtonLogo(x,y,key,scale){
-    var sprite = this.game.add.button(x,y,key);
-    sprite.callback = function(){
-      this.click = this.compareLogos(sprite.key);
-    }
+    var sprite = this.game.add.button(x,y,key,() => this.compareLogos(key),this);
     sprite.scale.set(scale);
     sprite.anchor.set(0.5);
     sprite.angle = game.rnd.integer();
@@ -311,22 +318,27 @@ export default class extends Phaser.State {
   }
 
   compareLogos(logoClickDeck){
-    for(var i = 0; i<playerCard.logos.lenght; i++){
-      if(listLogoPlayer[i]==logoClickDeck){
-        return true;
+    for(var i = 0; i<this.playerCard.logos.length; i++){
+      if(this.playerCard.logos[i]==logoClickDeck){
+        this.click = true;
       }
-      else{
-        return false;
+      if(this.click == true){
+        //this.playerCard.incrementPoint();
       }
     }
   }
 
   update(){
-
+    if(this.click == true){
+      this.playerCard.player.incrementPoint();
+      this.click = false;
+    }
   }
 
   render(){
     game.debug.text('Time until event: ' + this.timerGame.duration.toFixed(0), 32, 32);
     game.debug.text('GoodClick: ' + this.click, 32, 64);
+    game.debug.text('Elements in this.listLogoPlayer : ' + this.playerCard.logos.length, 32, 96);
+    game.debug.text('Points joueur :' + this.playerCard.player.points, 32, 128);
   }
 }
