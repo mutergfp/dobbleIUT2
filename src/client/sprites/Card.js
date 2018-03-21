@@ -4,16 +4,17 @@ import { spriteSizeFactory } from '../utils'
 export default class Card extends Phaser.Sprite{
 
 
-  constructor ({ game, x, y, asset}, player, card) {
+  constructor ({ game, x, y, asset}, player, card, logos) {
     super(game, x, y,asset);
     this.player = player;
     this.card = card;
+    this.logos = logos;
   }
 
 
 
   middleCardGeneration(){
-
+    
   }
 
   playerCardGeneration(){

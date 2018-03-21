@@ -1,11 +1,16 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import Card from '../sprites/Card'
+import Player from '../model/Player'
 
 export default class extends Phaser.State {
-  init() {
-    game.add.image(game.world.centerX,game.world.centerY, 'TapisDeJeu').anchor.set(0.5);
+
+  init(player,currentOldCards) {
+    game.add.image(game.world.centerX,game.world.centerY,'TapisDeJeu').anchor.set(0.5);
+    this.player = player;
+    this.oldCards = currentOldCards;
   }
+
   preload() { }
 
   create() {
@@ -13,50 +18,80 @@ export default class extends Phaser.State {
     /*------------------------------------------------
     |     Creation of card, and affectate logos      |
     ------------------------------------------------*/
-    this.listLogoPlayer = [1,2,3,4,5,6,7,8];
+    this.currentCards = {
+      middleCard : [8,9,10,11,12,13,14,15],
+      player1 : [1,2,3,4,5,6,7,8],
+      player2 : [1,2,3,4,5,6,7,8],
+      player3 : [1,2,3,4,5,6,7,8],
+      player4 : [1,2,3,4,5,6,7,8],
+      player5 : [1,2,3,4,5,6,7,8],
+      player6 : [1,2,3,4,5,6,7,8],
+      player7 : [1,2,3,4,5,6,7,8],
+      player8 : [1,2,3,4,5,6,7,8]
+    }
+    if(!this.oldCards){
+      this.oldCards = {
+        middleCard : [8,9,10,11,12,13,14,15],
+        player1 : [1,2,3,4,5,6,7,8],
+        player2 : [1,2,3,4,5,6,7,8],
+        player3 : [1,2,3,4,5,6,7,8],
+        player4 : [1,2,3,4,5,6,7,8],
+        player5 : [1,2,3,4,5,6,7,8],
+        player6 : [1,2,3,4,5,6,7,8],
+        player7 : [1,2,3,4,5,6,7,8],
+        player8 : [1,2,3,4,5,6,7,8]
+      }
+    }
 
-    // this.listLogoPlayer = new Array();
-    // this.listLogoPlayer.push('1')
-    // this.listLogoPlayer.push('2');
-    // this.listLogoPlayer.push('3');
-    // this.listLogoPlayer.push('4');
-    // this.listLogoPlayer.push('5');
-    // this.listLogoPlayer.push('6');
-    // this.listLogoPlayer.push('7');
-    // this.listLogoPlayer.push('8');
 
     this.x1 = 0;
     this.y1 = 0;
 
-    var tabOpponentCard = new Array();
+    this.click = false;
 
-     var playerCard = new Card({
+    this.tabOpponentCard = new Array();
+
+    if(!this.player){
+    //CARD PLAYER
+      this.player = new Player({
+        game:this.game,
+        x:game.world.centerX,
+        y:game.world.centerY+215,
+        assets:null
+      },'Player1', 1);
+    }
+
+    this.playerCard = new Card({
        game:this.game,
        x:game.world.centerX,
        y:game.world.centerY+215,
        asset:'cardPlayer'
-     },"Player1"
-     ,this.createBlankCircle(game.world.centerX, game.world.centerY+215,'cardPlayer'));
+     },this.player
+     ,this.createBlankCircle(game.world.centerX, game.world.centerY+215,'cardPlayer')
+     ,this.currentCards.player1);
 
      for(var i = 0; i<=8; i++){
        this.determinePlayerLogoLocation(i,this.x1,this.y1);
-       this.createSpriteLogo(playerCard.x+this.x1,playerCard.y+this.y1,this.listLogoPlayer[i],0.12);
+       this.createSpriteLogo(this.playerCard.x+this.x1,this.playerCard.y+this.y1,this.playerCard.logos[i],(game.rnd.integerInRange(9,12)/100));
      }
 
-     var deckCard = new Card({
+     //CARD DECK
+     this.deckCard = new Card({
        game:this.game,
        x:game.world.centerX,
        y:game.world.centerY-30,
        asset:'cardDeck'
      },"Deck"
-     ,this.createBlankCircle(game.world.centerX, game.world.centerY-30,'cardDeck'));
+     ,this.createBlankCircle(game.world.centerX, game.world.centerY-30,'cardDeck')
+     ,this.currentCards.middleCard);
 
      for(var i = 0; i<=8; i++){
        this.determineDeckLogoLocation(i,this.x1,this.y1);
-       this.createButtonLogo(deckCard.x+this.x1,deckCard.y+this.y1,this.listLogoPlayer[i],0.20);
+       this.createButtonLogo(this.deckCard.x+this.x1,this.deckCard.y+this.y1,this.deckCard.logos[i],(game.rnd.integerInRange(16,20)/100));
      }
 
      //Sens trigonométrique à partir de la carte du joueur
+
      var opponentCard1 = new Card({
        game:this.game,
        x:game.world.centerX+175,
@@ -65,7 +100,7 @@ export default class extends Phaser.State {
      },"Opponent1"
      ,this.createBlankCircle(game.world.centerX+175, game.world.centerY+95,'cardOpponent'));
 
-     tabOpponentCard.push(opponentCard1);
+     this.tabOpponentCard.push(opponentCard1);
 
      var opponentCard2 = new Card({
        game:this.game,
@@ -75,7 +110,7 @@ export default class extends Phaser.State {
      },"Opponent2"
      ,this.createBlankCircle(game.world.centerX+200, game.world.centerY-30,'cardOpponent'));
 
-     tabOpponentCard.push(opponentCard2);
+     this.tabOpponentCard.push(opponentCard2);
 
      var opponentCard3 = new Card({
        game:this.game,
@@ -85,7 +120,7 @@ export default class extends Phaser.State {
      },"Opponent3"
      ,this.createBlankCircle(game.world.centerX+175, game.world.centerY-155,'cardOpponent'));
 
-     tabOpponentCard.push(opponentCard3);
+     this.tabOpponentCard.push(opponentCard3);
 
      var opponentCard4 = new Card({
        game:this.game,
@@ -95,7 +130,7 @@ export default class extends Phaser.State {
      },"Opponent4"
      ,this.createBlankCircle(game.world.centerX, game.world.centerY-235,'cardOpponent'));
 
-     tabOpponentCard.push(opponentCard4);
+     this.tabOpponentCard.push(opponentCard4);
 
      var opponentCard5 = new Card({
        game:this.game,
@@ -105,7 +140,7 @@ export default class extends Phaser.State {
      },"Opponent5"
      ,this.createBlankCircle(game.world.centerX-175, game.world.centerY-155,'cardOpponent'));
 
-     tabOpponentCard.push(opponentCard5);
+     this.tabOpponentCard.push(opponentCard5);
 
      var opponentCard6 = new Card({
        game:this.game,
@@ -115,7 +150,7 @@ export default class extends Phaser.State {
      },"Opponent6"
      ,this.createBlankCircle(game.world.centerX-200, game.world.centerY-30,'cardOpponent'));
 
-     tabOpponentCard.push(opponentCard6);
+     this.tabOpponentCard.push(opponentCard6);
 
      var opponentCard7 = new Card({
        game:this.game,
@@ -125,12 +160,12 @@ export default class extends Phaser.State {
      },"Opponent7"
      ,this.createBlankCircle(game.world.centerX-175, game.world.centerY+95,'cardOpponent'));
 
-     tabOpponentCard.push(opponentCard7);
+     this.tabOpponentCard.push(opponentCard7);
 
-     for (var i = 0;i<tabOpponentCard.length;i++){
+     for (var i = 0;i<this.tabOpponentCard.length;i++){
        for(var i2 = 0; i2<=8; i2++){
          this.determineOpponentLogoLocation(i2,this.x1,this.y1);
-         this.createSpriteLogo(tabOpponentCard[i].x+this.x1,tabOpponentCard[i].y+this.y1,this.listLogoPlayer[i2],0.07);
+         this.createSpriteLogo(this.tabOpponentCard[i].x+this.x1,this.tabOpponentCard[i].y+this.y1,this.currentCards.player1[i2],(game.rnd.integerInRange(5,7)/100));
        }
      }
 
@@ -138,27 +173,29 @@ export default class extends Phaser.State {
      |             Game timer creation                |
      ------------------------------------------------*/
 
-     /*var timerGame = this.game.Timer.add(60000,function(){
-
-     })*/
+     this.timerGame = game.time.create(false);
+     this.timerGame.add(10000,function(){
+       this.state.start('EndScreen',true,false,this.playerCard);
+     },this);
+     this.timerGame.start();
 
   }
 
   createSpriteLogo(x,y,key,scale){
+
     var sprite = this.game.add.sprite(x,y,key);
     sprite.scale.set(scale);
     sprite.anchor.set(0.5);
     sprite.angle = game.rnd.integer();
   }
 
-  createButtonLogo(x,y,key,scale){
-    var sprite = this.game.add.button(x,y,key,
-      function(){
-        this.verifyClick();
-    });
+  createButtonLogo(x,y,key,scale,same=false){
+    var sprite = this.game.add.button(x,y,key,() => this.compareLogos(key),this);
     sprite.scale.set(scale);
     sprite.anchor.set(0.5);
-    sprite.angle = game.rnd.integer();
+    if(same==false){
+      sprite.angle = game.rnd.integer();
+    }
   }
 
   createBlankCircle(x,y,key){
@@ -310,22 +347,41 @@ export default class extends Phaser.State {
       }
   }
 
-  compareLogos(listLogoPlayer, logoClickDeck){
-    for(var i = 0; i<listLogoPlayer.lenght; i++){
-      if(listLogoPlayer[i]==logoClickDeck){
-
-      }
-      else{
-
+  compareLogos(logoClickDeck){
+    for(var i = 0; i<this.playerCard.logos.length; i++){
+      if(this.playerCard.logos[i]==logoClickDeck){
+        this.click = true;
       }
     }
+    if(this.click == false){
+      this.playerCard.player.decrementPoint();
+    }
   }
-  
-  update(){
 
+
+  update(){
+    if(this.click == true){
+      this.playerCard.player.incrementPoint();
+      this.click = false;
+      this.state.restart(true,false,this.player,this.currentCards);
+    }
+  }
+
+  requestServer(){
+    fetch('http://gi1.univ-lr.fr:7777')
+      .then(res => res.json())
+      .then(res => {
+        res.forEach(idImage => {
+          this.load.spritesheet(idImage.toString(),PATHAPI+idImage);
+        });
+        return true;
+      })
+      .then(res => fetchingImages = res);
   }
 
   render(){
-
+    game.debug.text('Time until event: ' + this.timerGame.duration.toFixed(0), 32, 32);
+    game.debug.text('Points joueur :' + this.playerCard.player.points, 32, 64);
   }
+
 }

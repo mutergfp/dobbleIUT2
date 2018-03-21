@@ -8,10 +8,14 @@ var fetchingImages = false;
 
 export default class extends Phaser.State {
 
-  init () {
+  init (username) {
+    this.username = username;
   }
 
   preload () {
+    this.load.image('loader-bar','./assets/images/loader-bar.png');
+    this.load.image('loader-bg','./assets/images/loader-bg.png');
+
     //LOGOS
     fetch('http://gi1.univ-lr.fr:82/images')
       .then(res => res.json())
@@ -26,7 +30,7 @@ export default class extends Phaser.State {
     this.load.crossOrigin = "anonymous"; //Obligate to fix cross-origin Error
 
     //IMAGES
-    this.load.image('FondDobble',PATHLOCAL+'images/fond/FondDeJeu.png');
+    this.load.image('FondDeJeu',PATHLOCAL+'images/fond/FondDeJeu.png');
     this.load.image('TapisDeJeu',PATHLOCAL+'images/fond/TapisDeJeu.png');
 
     //SPRITESHEETS
@@ -49,11 +53,15 @@ export default class extends Phaser.State {
   }
 
   create () {
+    this.background = this.add.sprite(game.world.centerX, game.world.centerY, 'loader-bg')//.anchor.set(0.5);
+    this.preloadBar = this.add.sprite(game.world.centerX, game.world.centerY, 'loader-bar')//.anchor.set(0.5);
+
+    this.load.setPreloadSprite(this.preloadBar);
   }
 
   update() {
     if (fetchingImages) {
-      this.state.start('MainMenu');
+      this.state.start('MainMenu',true,false,this.username);
     }
   }
 }
