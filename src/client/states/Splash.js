@@ -8,7 +8,8 @@ var fetchingImages = false;
 
 export default class extends Phaser.State {
 
-  init () {
+  init (username) {
+    this.username = username;
   }
 
   preload () {
@@ -60,7 +61,7 @@ export default class extends Phaser.State {
 
   update() {
     if (fetchingImages) {
-      this.state.start('MainMenu');
+      this.state.start('MainMenu',true,false,this.username);
     }
   }
 }

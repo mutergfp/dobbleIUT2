@@ -21,6 +21,11 @@ export default class Player extends Phaser.Sprite {
   }
 
   incrementPoint(){
-    this.points++;
+    this.points+=10;
+  }
+
+  decrementPoint(){
+    if(this.points > 0)
+      this.points-=5;
   }
 }

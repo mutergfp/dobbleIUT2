@@ -2,8 +2,9 @@ import Phaser from 'phaser'
 
 export default class extends Phaser.State{
 
-  init(){
+  init(username){
     game.add.image(game.world.centerX,game.world.centerY, 'FondDeJeu').anchor.set(0.5);
+    this.username = username;
   }
 
   preload(){
@@ -15,6 +16,7 @@ export default class extends Phaser.State{
     function(){
       this.state.start('Game');
     },"Jouer");
+    this.createText(game.world.centerX,game.world.centerY-150, 'Welcome, ' + this.username,40,'#FFFFFF','Roboto');
 
   }
 

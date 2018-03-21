@@ -5,9 +5,12 @@ import Player from '../model/Player'
 
 export default class extends Phaser.State {
 
-  init() {
+  init(player,currentOldCards) {
     game.add.image(game.world.centerX,game.world.centerY,'TapisDeJeu').anchor.set(0.5);
+    this.player = player;
+    this.oldCards = currentOldCards;
   }
+
   preload() { }
 
   create() {
@@ -15,9 +18,31 @@ export default class extends Phaser.State {
     /*------------------------------------------------
     |     Creation of card, and affectate logos      |
     ------------------------------------------------*/
+    this.currentCards = {
+      middleCard : [8,9,10,11,12,13,14,15],
+      player1 : [1,2,3,4,5,6,7,8],
+      player2 : [1,2,3,4,5,6,7,8],
+      player3 : [1,2,3,4,5,6,7,8],
+      player4 : [1,2,3,4,5,6,7,8],
+      player5 : [1,2,3,4,5,6,7,8],
+      player6 : [1,2,3,4,5,6,7,8],
+      player7 : [1,2,3,4,5,6,7,8],
+      player8 : [1,2,3,4,5,6,7,8]
+    }
+    if(!this.oldCards){
+      this.oldCards = {
+        middleCard : [8,9,10,11,12,13,14,15],
+        player1 : [1,2,3,4,5,6,7,8],
+        player2 : [1,2,3,4,5,6,7,8],
+        player3 : [1,2,3,4,5,6,7,8],
+        player4 : [1,2,3,4,5,6,7,8],
+        player5 : [1,2,3,4,5,6,7,8],
+        player6 : [1,2,3,4,5,6,7,8],
+        player7 : [1,2,3,4,5,6,7,8],
+        player8 : [1,2,3,4,5,6,7,8]
+      }
+    }
 
-    this.listLogoPlayer = [1,2,3,4,5,6,7,8];
-    this.listLogoDeck = [8,9,10,11,12,13,14,15];
 
     this.x1 = 0;
     this.y1 = 0;
@@ -26,26 +51,28 @@ export default class extends Phaser.State {
 
     this.tabOpponentCard = new Array();
 
+    if(!this.player){
     //CARD PLAYER
-    this.player = new Player({
-      game:this.game,
-      x:game.world.centerX,
-      y:game.world.centerY+215,
-      assets:null
-    },'Player1', 1);
+      this.player = new Player({
+        game:this.game,
+        x:game.world.centerX,
+        y:game.world.centerY+215,
+        assets:null
+      },'Player1', 1);
+    }
 
-      this.playerCard = new Card({
+    this.playerCard = new Card({
        game:this.game,
        x:game.world.centerX,
        y:game.world.centerY+215,
        asset:'cardPlayer'
      },this.player
      ,this.createBlankCircle(game.world.centerX, game.world.centerY+215,'cardPlayer')
-     ,this.listLogoPlayer);
+     ,this.currentCards.player1);
 
      for(var i = 0; i<=8; i++){
        this.determinePlayerLogoLocation(i,this.x1,this.y1);
-       this.createSpriteLogo(this.playerCard.x+this.x1,this.playerCard.y+this.y1,this.playerCard.logos[i],0.12);
+       this.createSpriteLogo(this.playerCard.x+this.x1,this.playerCard.y+this.y1,this.playerCard.logos[i],(game.rnd.integerInRange(9,12)/100));
      }
 
      //CARD DECK
@@ -56,11 +83,11 @@ export default class extends Phaser.State {
        asset:'cardDeck'
      },"Deck"
      ,this.createBlankCircle(game.world.centerX, game.world.centerY-30,'cardDeck')
-     ,this.listLogoDeck);
+     ,this.currentCards.middleCard);
 
      for(var i = 0; i<=8; i++){
        this.determineDeckLogoLocation(i,this.x1,this.y1);
-       this.createButtonLogo(this.deckCard.x+this.x1,this.deckCard.y+this.y1,this.deckCard.logos[i],0.20);
+       this.createButtonLogo(this.deckCard.x+this.x1,this.deckCard.y+this.y1,this.deckCard.logos[i],(game.rnd.integerInRange(16,20)/100));
      }
 
      //Sens trigonométrique à partir de la carte du joueur
@@ -138,7 +165,7 @@ export default class extends Phaser.State {
      for (var i = 0;i<this.tabOpponentCard.length;i++){
        for(var i2 = 0; i2<=8; i2++){
          this.determineOpponentLogoLocation(i2,this.x1,this.y1);
-         this.createSpriteLogo(this.tabOpponentCard[i].x+this.x1,this.tabOpponentCard[i].y+this.y1,this.listLogoPlayer[i2],0.07);
+         this.createSpriteLogo(this.tabOpponentCard[i].x+this.x1,this.tabOpponentCard[i].y+this.y1,this.currentCards.player1[i2],(game.rnd.integerInRange(5,7)/100));
        }
      }
 
@@ -148,24 +175,27 @@ export default class extends Phaser.State {
 
      this.timerGame = game.time.create(false);
      this.timerGame.add(10000,function(){
-       this.state.start('EndScreen',true,false,this.playerCard,this.tabOpponentCard);
+       this.state.start('EndScreen',true,false,this.playerCard);
      },this);
      this.timerGame.start();
 
   }
 
   createSpriteLogo(x,y,key,scale){
+
     var sprite = this.game.add.sprite(x,y,key);
     sprite.scale.set(scale);
     sprite.anchor.set(0.5);
     sprite.angle = game.rnd.integer();
   }
 
-  createButtonLogo(x,y,key,scale){
+  createButtonLogo(x,y,key,scale,same=false){
     var sprite = this.game.add.button(x,y,key,() => this.compareLogos(key),this);
     sprite.scale.set(scale);
     sprite.anchor.set(0.5);
-    sprite.angle = game.rnd.integer();
+    if(same==false){
+      sprite.angle = game.rnd.integer();
+    }
   }
 
   createBlankCircle(x,y,key){
@@ -322,23 +352,36 @@ export default class extends Phaser.State {
       if(this.playerCard.logos[i]==logoClickDeck){
         this.click = true;
       }
-      if(this.click == true){
-        //this.playerCard.incrementPoint();
-      }
+    }
+    if(this.click == false){
+      this.playerCard.player.decrementPoint();
     }
   }
+
 
   update(){
     if(this.click == true){
       this.playerCard.player.incrementPoint();
       this.click = false;
+      this.state.restart(true,false,this.player,this.currentCards);
     }
+  }
+
+  requestServer(){
+    fetch('http://gi1.univ-lr.fr:7777')
+      .then(res => res.json())
+      .then(res => {
+        res.forEach(idImage => {
+          this.load.spritesheet(idImage.toString(),PATHAPI+idImage);
+        });
+        return true;
+      })
+      .then(res => fetchingImages = res);
   }
 
   render(){
     game.debug.text('Time until event: ' + this.timerGame.duration.toFixed(0), 32, 32);
-    game.debug.text('GoodClick: ' + this.click, 32, 64);
-    game.debug.text('Elements in this.listLogoPlayer : ' + this.playerCard.logos.length, 32, 96);
-    game.debug.text('Points joueur :' + this.playerCard.player.points, 32, 128);
+    game.debug.text('Points joueur :' + this.playerCard.player.points, 32, 64);
   }
+
 }

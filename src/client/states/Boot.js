@@ -9,7 +9,11 @@ export default class extends Phaser.State {
     // this.fontsLoaded = this.fontsLoaded.bind(this)
   }
 
-  preload() {}
+  preload() {
+    // localStorage.setItem(1,12334);
+    // this.username = localStorage.getItem('username');
+
+  }
   /*  if (config.webfonts.length) {
       WebFont.load({
         google: {
@@ -37,7 +41,7 @@ export default class extends Phaser.State {
     }
     */
 
-    this.state.start('Splash');
+    this.state.start('Splash',true,false,this.username);
   }
 
   /*fontsLoaded() {
