@@ -18,5 +18,5 @@ require('./services/user/userModel');
 const app = require('./app');
 app.set('port', process.env.SERVER_PORT || 7777);
 const server = app.listen(app.get('port'), () => {
-  console.log(`Express running -> PORT ${server.address().port}`);
+  console.log(`Express running -> PORT ${app.get('port')}`);
 });

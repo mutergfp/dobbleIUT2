@@ -114,7 +114,7 @@ __webpack_require__(6);
 var app = __webpack_require__(7);
 app.set('port', process.env.SERVER_PORT || 7777);
 var server = app.listen(app.get('port'), function () {
-  console.log('Express running -> PORT ' + server.address().port);
+  console.log('Express running -> PORT ' + app.get('port'));
 });
 
 /***/ }),
