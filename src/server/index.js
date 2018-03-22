@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const jsonwebtoken = require('jsonwebtoken');
 
+
 // import environmental variables from our variables.env file
 require('dotenv').config({ path: 'variables.env' });
 
