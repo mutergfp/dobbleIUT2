@@ -2,6 +2,7 @@
 import Phaser from 'phaser'
 import Card from '../sprites/Card'
 import Player from '../model/Player'
+import { getCookie } from '../utils'
 
 export default class extends Phaser.State {
 
@@ -14,7 +15,8 @@ export default class extends Phaser.State {
   preload() { }
 
   create() {
-
+    document.cookie = 'token=coucou';
+    
     /*------------------------------------------------
     |     Creation of card, and affectate logos      |
     ------------------------------------------------*/
@@ -380,6 +382,7 @@ export default class extends Phaser.State {
   render(){
     game.debug.text('Time until event: ' + this.timerGame.duration.toFixed(0), 32, 32);
     game.debug.text('Points joueur :' + this.playerCard.player.points, 32, 64);
+    game.debug.text('cookie token : ' + getCookie('token'), 32, 80);
   }
 
 }
