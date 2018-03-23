@@ -193,13 +193,11 @@ export default class extends Phaser.State {
     sprite.angle = game.rnd.integer();
   }
 
-  createButtonLogo(x,y,key,scale,same=false){
+  createButtonLogo(x,y,key,scale){
     var sprite = this.game.add.button(x,y,key,() => this.compareLogos(key),this);
     sprite.scale.set(scale);
     sprite.anchor.set(0.5);
-    if(same==false){
-      sprite.angle = game.rnd.integer();
-    }
+    sprite.angle = game.rnd.integer();
   }
 
   createBlankCircle(x,y,key){
