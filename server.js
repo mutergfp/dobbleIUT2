@@ -165,8 +165,8 @@ mongoose.model('User', UserSchema);
 var express = __webpack_require__(3);
 var bodyParser = __webpack_require__(8);
 var routes = __webpack_require__(9);
-var sourceMapSupport = __webpack_require__(11);
-var path = __webpack_require__(12);
+var sourceMapSupport = __webpack_require__(16);
+var path = __webpack_require__(17);
 
 if (process.env.BUILD_DEV) {
     sourceMapSupport.install();
@@ -209,7 +209,11 @@ module.exports = require("body-parser");
 var router = __webpack_require__(3).Router();
 
 var userController = __webpack_require__(10);
+<<<<<<< HEAD
 var gameController = __webpack_require__(13);
+=======
+var gameController = __webpack_require__(11);
+>>>>>>> 25af1d3a51d0595ac689a8baf961d094d3e8706e
 
 router.use(userController.decodeJWT);
 
@@ -317,12 +321,121 @@ exports.isLoggedIn = function (req, res) {
 
 /***/ }),
 /* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.testGenStarterPack = exports.testGenMiddleCard = undefined;
+
+var _cardGeneration = __webpack_require__(12);
+
+var testGenMiddleCard = exports.testGenMiddleCard = function testGenMiddleCard(req, res) {
+    (0, _cardGeneration.genMiddleCard)([[1, 2, 3, 4, 5, 6, 7, 8], [1, 2, 3, 4, 5, 6, 7, 9]]).then(function (response) {
+        return response.data;
+    }).then(function (data) {
+        return res.json(data);
+    }).catch(function (err) {
+        return res.json({
+            message: err.message
+        });
+    });
+};
+
+var testGenStarterPack = exports.testGenStarterPack = function testGenStarterPack(req, res) {
+    (0, _cardGeneration.genStarterPack)(2).then(function (response) {
+        return response.data;
+    }).then(function (data) {
+        return res.json(data);
+    }).catch(function (err) {
+        return res.json({
+            message: err.message
+        });
+    });
+};
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.genStarterPack = exports.genMiddleCard = undefined;
+
+var _fetching = __webpack_require__(13);
+
+var BASE_URL = 'http://dobbleCartes:82';
+
+var genMiddleCard = exports.genMiddleCard = function genMiddleCard(cards) {
+  return (0, _fetching.fetchingJSON)(BASE_URL + '/carte', cards, 'POST');
+};
+
+var genStarterPack = exports.genStarterPack = function genStarterPack(nbPlayers) {
+  return (0, _fetching.fetchingJSON)(BASE_URL + '/cartes/' + nbPlayers);
+};
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fetchingJSON = undefined;
+
+var _axios = __webpack_require__(14);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _error = __webpack_require__(15);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var fetchingJSON = exports.fetchingJSON = function fetchingJSON() {
+  var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (0, _error.isRequired)('url');
+  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'GET';
+  return _axios2.default[method.toLowerCase()](url, params);
+};
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports) {
+
+module.exports = require("axios");
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var isRequired = exports.isRequired = function isRequired(fieldName) {
+    throw new Error(fieldName + " param is required");
+};
+
+/***/ }),
+/* 16 */
 /***/ (function(module, exports) {
 
 module.exports = require("source-map-support");
 
 /***/ }),
-/* 12 */
+/* 17 */
 /***/ (function(module, exports) {
 
 module.exports = require("path");
