@@ -1,0 +1,1 @@
+export const status = ['INIT', 'PENDING', 'IN_PROGRESS', 'FINISHED'];

@@ -40,7 +40,7 @@ export default class extends Phaser.State {
       this.state.start('Splash')
     }
     */
-
+    
     this.state.start('Splash',true,false,this.username);
   }
 
