@@ -12,20 +12,44 @@ export default class extends Phaser.State{
   }
 
   create(){
-    this.createButtonAndText(game.world.centerX,game.world.centerY,'ButtonNormal',
+    this.btnMusic;
+    this.wantMusic = true;
+    this.music = game.add.audio('MainMenuMusic').play();
+    this.createButton(game.world.centerX,game.world.centerY,'PlayButton',
     function(){
+      this.music.stop();
       this.state.start('Game');
-    },"Jouer");
-    this.createText(game.world.centerX,game.world.centerY-150, 'Welcome, ' + this.username,40,'#FFFFFF','Roboto');
+    });
 
+  }
+
+  update(){
+    if(this.wantMusic = true){
+      this.btnMusic = this.createButton(game.world.centerX+300,game.world.centerY+200,'soundOn',
+      function(){
+        this.wantMusic = false;
+        this.music.stop();
+      })
+    }
+    if(this.wantMusic = false){
+      this.btnMusic = this.createButton(game.world.centerX+300,game.world.centerY+200,'soundOff',
+      function(){
+        this.music.play();
+        this.wantMusic = true;
+      })
+    }
+
+    if(!this.music.isPlaying && this.wantMusic){
+      this.music.play();
+    }
   }
 
   createButton(x,y,key,callback){
     var button = game.add.button(x,y,key,callback,this,2,0);
 
     button.anchor.setTo(0.5);
-    button.width = 150;
-    button.height = 40;
+    // button.width = 150;
+    // button.height = 40;
   }
 
   createButtonAndText(x,y,key,callback,text){
