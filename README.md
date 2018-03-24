@@ -105,7 +105,7 @@ When the server is running, you can access it on http://localhost:7777.
 | game/finish | /game/infospartie object | when the match finish |
 
 **Every property with 'time' is a timestamp, so :** 
-```json
+```javascript
     startTime: Number // the date in milliseconds when the match begin,
     endTime: Number // the date in milliseconds when the match end
 ```
