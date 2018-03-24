@@ -75,7 +75,7 @@ To run the game, open your browser and enter http://localhost:3000 into the addr
 When the server is running, you can access it on http://localhost:7777.
 
 
-# Documentations
+# Documentation
 
 ## 1. Server Users API
 
@@ -96,13 +96,19 @@ When the server is running, you can access it on http://localhost:7777.
 | /game/joueur/{username} | GET | | ```{username: String, score: Number, card: [Number], rank: Number}```|
 
 
-## 3. Server Game Socket (port 7777)
+## 3. Server -> Client Game Socket (port 7777)
 | Event | Data | Description |
 |:-:|:-:|:-:|
-| game/init | { startTime: Number } |
-| game/start | /game/infospartie object |
-| game/updateBoard | /game/infospartie object |
-| game/finish | /game/infospartie object |
+| game/init | { startTime: Number } | when the match will start |
+| game/start | /game/infospartie object | when the match start |
+| game/updateBoard | /game/infospartie object | when one player win 1 point (so refresh the board) |
+| game/finish | /game/infospartie object | when the match finish |
+
+**Every property with 'time' is a timestamp, so :** 
+```json
+    startTime: Number // the date in milliseconds when the match begin,
+    endTime: Number // the date in milliseconds when the match end
+```
 
 
 **Note** : *To see all changes before the initial commit, check [Dobble.old repository](https://gitlab.univ-lr.fr/GI1/Dobble.old/tree/master)*
