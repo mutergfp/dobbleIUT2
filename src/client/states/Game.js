@@ -4,6 +4,8 @@ import Card from '../sprites/Card'
 import Player from '../model/Player'
 import { getCookie } from '../utils'
 
+import clientSocket from '../socket.js';
+
 export default class extends Phaser.State {
 
   init(player,currentOldCards) {
@@ -15,7 +17,13 @@ export default class extends Phaser.State {
   preload() { }
 
   create() {
-
+    document.cookie = 'token=coucou';
+    clientSocket(
+      data => console.log(data.startTime), // whenInit data: { startTime }
+      infospartie => console.log(infospartie), // whenStart
+      infospartie => console.log(infospartie), // whenUpdateBoard
+      infospartie => console.log(infospartie) // whenFinish
+    );
     /*------------------------------------------------
     |     Creation of card, and affectate logos      |
     ------------------------------------------------*/
