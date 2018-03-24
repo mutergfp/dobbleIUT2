@@ -16,7 +16,7 @@ curl -X POST -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2V
 ## jouer
 
 # DV
-curl -X POST -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inh5eiIsIl9pZCI6IjVhYjRkMjE5ZmU1YWY5MWFlMzE3OTIxNSIsImlhdCI6MTUyMTc5OTcxN30.tFW_iwrSySuyPjcTVRw7TIQ-gnw2MafqBSsmkSsyZC0" -H "Content-Type: application/json" -d '{"symbol": 4}' http://localhost:7777/game/jouer
+curl -X POST -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inh5eiIsIl9pZCI6IjVhYjRkMjE5ZmU1YWY5MWFlMzE3OTIxNSIsImlhdCI6MTUyMTgzNTM3MX0._WW0VAUxyu96kVP6XP56q9Pf1cvD3atelrlJAUXRlbI" -H "Content-Type: application/json" -d '{"symbol": 4}' http://localhost:7777/game/jouer
 
 # DINV (si aaa n'est pas dans la partie)
 curl -X POST -H "Authorization: JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFhYSIsIl9pZCI6IjVhYjU1ZDYwY2ViMWQ1NDZjMzhkYmNiYiIsImlhdCI6MTUyMTgzNTM5OH0.Q7kd9itQ9dVUXPg9MaSEDasoBBdUABxleSpY2oiP8ao" -H "Content-Type: application/json" -d '{"symbol": 4}' http://localhost:7777/game/jouer

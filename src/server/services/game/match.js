@@ -3,18 +3,32 @@ import * as cardGenAPI from './cardGeneration';
 import bcrypt from 'bcrypt';
 
 function Match() {
-    var id = 0;
-    var players = [];
-    var middleCard = [];
-    var status = 0;
-    var endTime = 0;
-    var matchTime = 0;
+    var id, players, middleCard, status, startTime, matchTime, endTime;
+
+    function construct() {
+        id = 0;
+        players = [];
+        middleCard = [];
+        status = 0;
+        endTime = 0;
+        matchTime = 0;
+        startTime = 0;
+    }
+
+    construct();
 
     function init(time = 60000, startDelay = 60000) {
         if (canInit()) {
             matchTime = time;
+            startTime = Date.now() + startDelay;
             id = bcrypt.hashSync(Date.now().toString(), 10); 
             status++;
+            events.emit('game/init', {
+                name: 'game/init',
+                data: {
+                    startTime
+                }
+            })
             setTimeout(start, startDelay);
         }
     }
@@ -33,6 +47,10 @@ function Match() {
     }
 
     function main() {
+        events.emit('game/start', {
+            name: 'game/start',
+            data: getMatchInfos()
+        });
         console.log(getMatchInfos());
         setTimeout(finishMatch, matchTime);
     }
@@ -98,17 +116,12 @@ function Match() {
     function finishMatch() {
         status++;
         console.log(getMatchInfos());
-        // emit event for socket
-        resetMatch();
-    }
-
-    function resetMatch() {
-        id = 0;
-        players = [];
-        middleCard = [];
-        status = 0;
-        endTime = 0;
-        matchTime = 0;
+        // emit event for sockets
+        events.emit('game/finish', {
+            name: 'game/finish',
+            data: getMatchInfos()
+        });
+        construct();
     }
 
     function isStarted() {
@@ -142,12 +155,15 @@ function Match() {
     function getRanking() {
         return players
             .sort((pa, pb) => pb.score - pa.score)
-            .map((player, i, self) => {
-                return {
+            .map((player, i, self) => ({
                     username: player.username,
                     rank: self.findIndex(p => p.score === player.score) + 1
-                };
-            });
+                })
+            );
+    }
+
+    function getRank({ username }) {
+        return (getRanking().find(r => r.username === username) || {}).rank;
     }
 
     function getStatus() {
@@ -158,6 +174,10 @@ function Match() {
         return props.status[status]
     }
 
+    function getStartTime() {
+        return startTime;
+    }
+
     function getMatchInfos() {
         return {
             id,
@@ -166,12 +186,16 @@ function Match() {
             status,
             statusMessage: getStatusMessage(),
             endTime,
+            startTime,
             ranking: getRanking()
         };
     }
 
     function getPlayerInfos({username}) {
-        return findPlayer({username});;
+        return Object.assign(
+            findPlayer({username}),
+            { rank: getRank({username}) }
+        )
     }
 
     return {
@@ -186,7 +210,8 @@ function Match() {
         playerTurn,
         nextPick,
         isStarted,
-        getPlayerInfos
+        getPlayerInfos,
+        getStartTime
     };
 }
 

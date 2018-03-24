@@ -18,7 +18,12 @@ export default class extends Phaser.State {
 
   create() {
     document.cookie = 'token=coucou';
-    clientSocket();
+    clientSocket(
+      data => console.log(data.startTime), // whenInit data: { startTime } 
+      infospartie => console.log(infospartie), // whenStart
+      infospartie => console.log(infospartie), // whenUpdateBoard
+      infospartie => console.log(infospartie) // whenFinish
+    );
     /*------------------------------------------------
     |     Creation of card, and affectate logos      |
     ------------------------------------------------*/

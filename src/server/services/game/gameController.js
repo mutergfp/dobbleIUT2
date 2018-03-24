@@ -33,7 +33,7 @@ export const join = (req, res) => {
         return res.status(400).json({
             message: 'Vous avez déjà rejoint la partie',
             hasJoined: true,
-            player: match.findPlayer(player),
+            player: match.getPlayerInfos(player),
             status: match.getStatus(),
             statusMessage: match.getStatusMessage()
         });
@@ -47,9 +47,10 @@ export const join = (req, res) => {
     res.json({  
         message: 'Vous avez rejoint la partie',
         hasJoined: true,
-        player: match.findPlayer(player),
+        player: match.getPlayerInfos(player),
         status: match.getStatus(),
-        statusMessage: match.getStatusMessage()
+        statusMessage: match.getStatusMessage(),
+        startTime: match.getStartTime()
     });
     
 }
@@ -74,6 +75,11 @@ export const jouer = (req, res) => {
         .then(middleCard => {
             res.json({
                 middleCard
+            });
+            // broadcast event to sockets
+            events.emit('game/updateBoard', {
+                name: 'game/updateBoard',
+                data: match.getMatchInfos()
             });
         })
         .catch(err => res.status(400).json({
