@@ -1,5 +1,6 @@
 import * as props from './props';
 import * as cardGenAPI from './cardGeneration';
+import * as logsAPI from './logs';
 import bcrypt from 'bcrypt';
 
 function Match() {
@@ -58,7 +59,11 @@ function Match() {
     function playerTurn({username}, symbol) {
         if (playerExist({username})) {
             let player = findPlayer({username});
-            return player.card.includes(symbol) && middleCard.includes(symbol); 
+            let isMatch = player.card.includes(symbol) && middleCard.includes(symbol);
+            /* logClick(player, isMatch, symbol)
+                .then(data => console.log(data))
+                .catch(err => console.error(err.message)); */
+            return isMatch;
         }
         return false;
     }
@@ -88,6 +93,27 @@ function Match() {
         return cardGenAPI.genMiddleCard(getAllPlayerCards())
             .then(response => response.data)
             .then(middleCardData => middleCard = middleCardData);
+    }
+
+    function logPlayerMatch() {
+        var timestamp = Date.now();
+        return Promise.all(players.map(player => logsAPI.logPlayerMatch({
+            idPartie: id,
+            idJoueur: player.username,
+            scoreJoueur: player.score,
+            estGagnant: player.rank === 1,
+            timestamp
+        })));
+    }
+
+    function logClick({ username }, isMatch, symbol) {
+        return logsAPI.logClick({ 
+            idPartie: id,
+            idJoueur: player.username,
+            estCorrect: isMatch,
+            idImage: symbol,
+            timestamp: Date.now()
+        });
     }
 
     function resetPlayerScores() {
@@ -121,6 +147,13 @@ function Match() {
             name: 'game/finish',
             data: getMatchInfos()
         });
+
+        /* logPlayerMatch()
+            .then(dataArr => {
+                console.log(dataArr);
+                construct();
+            })
+            .catch(err => console.error(err.message)); */
         construct();
     }
 
