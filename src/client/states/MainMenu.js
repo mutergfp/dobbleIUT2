@@ -12,8 +12,8 @@ export default class extends Phaser.State{
   }
 
   create(){
-    this.btnMusic;
-    this.wantMusic = true;
+    // this.btnMusic;
+    // this.wantMusic = true;
     this.music = game.add.audio('MainMenuMusic').play();
     this.createButton(game.world.centerX,game.world.centerY,'PlayButton',
     function(){
@@ -24,22 +24,22 @@ export default class extends Phaser.State{
   }
 
   update(){
-    if(this.wantMusic = true){
-      this.btnMusic = this.createButton(game.world.centerX+300,game.world.centerY+200,'soundOn',
-      function(){
-        this.wantMusic = false;
-        this.music.stop();
-      })
-    }
-    if(this.wantMusic = false){
-      this.btnMusic = this.createButton(game.world.centerX+300,game.world.centerY+200,'soundOff',
-      function(){
-        this.music.play();
-        this.wantMusic = true;
-      })
-    }
-
-    if(!this.music.isPlaying && this.wantMusic){
+    // if(this.wantMusic = true){
+    //   this.btnMusic = this.createButton(game.world.centerX+300,game.world.centerY+200,'soundOn',
+    //   function(){
+    //     this.wantMusic = false;
+    //     this.music.stop();
+    //   })
+    // }
+    // if(this.wantMusic = false){
+    //   this.btnMusic = this.createButton(game.world.centerX+300,game.world.centerY+200,'soundOff',
+    //   function(){
+    //     this.music.play();
+    //     this.wantMusic = true;
+    //   })
+    // }
+    //
+    if(!this.music.isPlaying){
       this.music.play();
     }
   }

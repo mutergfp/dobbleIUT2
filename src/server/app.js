@@ -1,5 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser'); 
+const bodyParser = require('body-parser');
 const routes = require('./routes/routes');
 const sourceMapSupport = require('source-map-support');
 const path = require('path');

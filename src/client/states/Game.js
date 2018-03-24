@@ -15,8 +15,7 @@ export default class extends Phaser.State {
   preload() { }
 
   create() {
-    document.cookie = 'token=coucou';
-    
+
     /*------------------------------------------------
     |     Creation of card, and affectate logos      |
     ------------------------------------------------*/
@@ -60,7 +59,7 @@ export default class extends Phaser.State {
         x:game.world.centerX,
         y:game.world.centerY+215,
         assets:null
-      },'Player1', 1);
+      },getCookie('username'), 1);
     }
 
     this.playerCard = new Card({
@@ -69,7 +68,7 @@ export default class extends Phaser.State {
        y:game.world.centerY+215,
        asset:'cardPlayer'
      },this.player
-     ,this.createBlankCircle(game.world.centerX, game.world.centerY+215,'cardPlayer')
+     ,this.createBlankCircle(game.world.centerX, game.world.centerY+215,'cardPlayer',this.player.pseudo)
      ,this.currentCards.player1);
 
      for(var i = 0; i<=8; i++){
@@ -199,7 +198,11 @@ export default class extends Phaser.State {
   }
 
   createBlankCircle(x,y,key){
-    var blankCircle = game.add.sprite(x,y,key);
+    var blankCircle = game.add.sprite(x,y,key,name);
+    if(name){
+      var username = game.add.createText(x,y,name);
+      username.fill = '#000000';
+    }
     blankCircle.anchor.set(0.5);
   }
 
@@ -382,7 +385,7 @@ export default class extends Phaser.State {
   render(){
     game.debug.text('Time until event: ' + this.timerGame.duration.toFixed(0), 32, 32);
     game.debug.text('Points joueur :' + this.playerCard.player.points, 32, 64);
-    game.debug.text('cookie token : ' + getCookie('token'), 32, 80);
+    game.debug.text('cookie token : ' + getCookie('id_token'), 32, 80);
   }
 
 }
