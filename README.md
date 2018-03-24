@@ -75,4 +75,34 @@ To run the game, open your browser and enter http://localhost:3000 into the addr
 When the server is running, you can access it on http://localhost:7777.
 
 
+# Documentations
+
+## 1. Server Users API
+
+
+| URL | Method | Request | Response |
+|:-:|:-:|:-:|:-:|
+| /account/register | POST | ```{username: String, password: String, confirmPassword: String}``` | The newly created user ```{username: String, created: Date, _id: String, _v: Number }```|
+| /account/login | POST | ```{username: String, password: String}``` | auth json web token ```{token: String}``` |
+| /account/isloggedin | GET | ```Header: Authorization: JWT <jwt>``` | ```{isLoggedIn: Boolean}``` |
+| /account/users | GET | | users list ```[{_id: String, created: Date, username: String}]```|
+
+## 2. Server Game API 
+| URL | Method | Request | Response |
+|:-:|:-:|:-:|:-:|
+| /game/join | POST | ```Header: Authorization: JWT <jwt>``` | ```{message: String, hasJoined: Boolean, player: {} from /game/joueur/{username}, status: Number, statusMessage: String, startTime: Number}```|
+| /game/jouer | POST | ```Header: Authorization: JWT <jwt>``` | ```{middleCard: [Number]}```|
+| /game/infospartie | GET | | ```{id: Number, middleCard:[Number], players [{} from /game/joueur/{username}], status: Number, statusMessage: String, endTime: Number, startTime: Number, ranking: [{username: String, rank: Number}]}``` |
+| /game/joueur/{username} | GET | | ```{username: String, score: Number, card: [Number], rank: Number}```|
+
+
+## 3. Server Game Socket (port 7777)
+| Event | Data | Description |
+|:-:|:-:|:-:|
+| game/init | { startTime: Number } |
+| game/start | /game/infospartie object |
+| game/updateBoard | /game/infospartie object |
+| game/finish | /game/infospartie object |
+
+
 **Note** : *To see all changes before the initial commit, check [Dobble.old repository](https://gitlab.univ-lr.fr/GI1/Dobble.old/tree/master)*
