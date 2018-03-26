@@ -22,5 +22,4 @@ router.post('/game/jouer', userController.loginRequired, gameController.jouer);
 router.get('/game/infospartie', gameController.infospartie);
 router.get('/game/joueur/:username', gameController.infosjoueur);
 
-
 module.exports = router;
