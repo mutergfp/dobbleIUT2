@@ -29,7 +29,7 @@ function Match() {
                 data: {
                     startTime
                 }
-            })
+            });
             setTimeout(start, startDelay);
         }
     }
@@ -70,7 +70,7 @@ function Match() {
     
     function nextPick({username}) {
         var player = findPlayer({username});
-        player.score++;
+        scoreUp(player);
         player.card = middleCard;
         return giveMiddleCard();
     }
@@ -212,15 +212,16 @@ function Match() {
     }
 
     function getMatchInfos() {
+
         return {
+            ranking: getRanking(),
             id,
             middleCard,
-            players,
+            players: players.map(getPlayerInfos),
             status,
             statusMessage: getStatusMessage(),
             endTime,
-            startTime,
-            ranking: getRanking()
+            startTime
         };
     }
 
@@ -229,6 +230,21 @@ function Match() {
             findPlayer({username}),
             { rank: getRank({username}) }
         )
+    }
+
+    function scoreUp({username}) {
+        var player = findPlayer({username});
+        if (player) player.score += props.SCORE_UP;
+    }
+
+    function scoreDown({username}) {
+        var player = findPlayer({username});
+        if (player) {
+            player.score -= props.SCORE_DOWN;
+            if (player.score < 0) {
+                player.score = 0;
+            }
+        }
     }
 
     return {
@@ -244,7 +260,8 @@ function Match() {
         nextPick,
         isStarted,
         getPlayerInfos,
-        getStartTime
+        getStartTime,
+        scoreDown
     };
 }
 
