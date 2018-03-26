@@ -62,15 +62,17 @@ export const jouer = (req, res) => {
             message: "La partie n'a pas commencée",
             status: match.getStatus(),
             statusMessage: match.getStatusMessage()
-        })
+        });
     if (!req.body.symbol)
         return res.status(400).json({
             message: 'Vous devez fournir un symbole pour jouer'
         });
-    if (!match.playerTurn(player, req.body.symbol))
+    if (!match.playerTurn(player, req.body.symbol)) {
+        match.scoreDown(player);
         return res.status(404).json({
             message: 'Joueur non trouvé ou mauvais symbole'
         });
+    }
     match.nextPick(player)
         .then(middleCard => {
             res.json({
