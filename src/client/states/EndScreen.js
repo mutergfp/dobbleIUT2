@@ -13,9 +13,9 @@ export default class extends Phaser.State {
 
   create(){
     this.createText(game.world.centerX, game.world.centerY-200,this.isWinner(),60,'#FFFFFF','Roboto');
-    this.createText(game.world.centerX, game.world.centerY,'Tu as : '+ this.playerCard.player.points +' points',20,'#FFFFFF','Roboto');
+    //this.createText(game.world.centerX, game.world.centerY,'Tu as : '+ this.playerCard.player.points +' points',20,'#FFFFFF','Roboto');
     this.createText(game.world.centerX, game.world.centerY+50,'Tu es classé 1er du classement général',20,'#FFFFFF','Roboto');
-    
+
   }
 
   isWinner(){

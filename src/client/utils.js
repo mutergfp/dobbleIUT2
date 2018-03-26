@@ -24,12 +24,12 @@ export const getCookie = (cname) => {
 }
 
 
-const BASE_URL = 'http://gi1.univ-lr.fr:7777';
+const BASE_URL = 'http://gi1.univ-lr.fr:7777/game';
 
 export const postJoin = jwt => axios.post(`${BASE_URL}/join`, {}, {
-  headers: {'Authorization': `JWT ${jwt}`}
+  headers: {'Authorization': `JWT ${jwt}`, 'Content-Type': 'application/json'}
 });
 
 export const postJouer = (jwt, symbol) => axios.post(`${BASE_URL}/jouer`, {symbol}, {
-  headers: {'Authorization': `JWT ${jwt}`} 
+  headers:{'Authorization': `JWT ${jwt}`}
 });
