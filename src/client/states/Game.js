@@ -29,7 +29,7 @@ export default class extends Phaser.State {
     this.scoreText = 0
     this.createTextScore(game.world.centerX-320,game.world.centerY-200,'Score : '+this.scoreText,40,'#FFFFFF')
 
-    this.music = game.add.audio('MainMenuMusic');
+    this.music = game.add.audio('GameMusic');
 
     if (!this.play){
       this.play = clientSocket(
@@ -338,8 +338,9 @@ export default class extends Phaser.State {
 
   whenStart(obj){
     this.timer = obj.endTime;
-    this.music.play()
+    this.music.play();
     this.createMiddleCard(obj);
+    console.log(obj);
     obj.players.forEach(player => {
       if(player.username == USERNAME){
         this.createPlayerCard(player);
@@ -375,12 +376,8 @@ export default class extends Phaser.State {
   }
 
   whenFinish(obj){
-    obj.players.forEach(playerEnd => {
-      if(playerEnd.username == USERNAME){
-        this.music.stop();
-        this.state.start('EndScreen',true,false,playerEnd.score,playerEnd.rank);
-      }
-    })
+    this.music.stop();
+    this.state.start('EndScreen',true,false,obj);
   }
 
 
