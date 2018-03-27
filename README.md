@@ -101,7 +101,8 @@ When the server is running, you can access it on http://localhost:7777.
 |:-:|:-:|:-:|
 | game/init | { startTime: Number } | when the match will start |
 | game/start | /game/infospartie object | when the match start |
-| game/updateBoard | /game/infospartie object | when one player win 1 point (so refresh the board) |
+| game/updateScore | /game/joueur object | when one player lose points |
+| game/updateBoard | /game/infospartie object | when one player win one symbol (so refresh the board) |
 | game/finish | /game/infospartie object | when the match finish |
 
 **Every property with 'time' is a timestamp, so :** 

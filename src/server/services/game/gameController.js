@@ -69,6 +69,10 @@ export const jouer = (req, res) => {
         });
     if (!match.playerTurn(player, req.body.symbol)) {
         match.scoreDown(player);
+        events.emit('game/updateScore', {
+            name: 'game/updateScore',
+            data: match.getPlayerInfos(player)
+        });
         return res.status(404).json({
             message: 'Joueur non trouvé ou mauvais symbole'
         });

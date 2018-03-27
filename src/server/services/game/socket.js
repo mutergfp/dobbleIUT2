@@ -17,6 +17,11 @@ function socket(server) {
         io.sockets.emit(event.name, event.data);
     }
 
+    function braodcastUpdateScore(event) {
+        console.log('update score');
+        io.sockets.emit(event.name, event.data);
+    }
+
     function broadcastUpdateBoard(event) {
         console.log('update board');
         io.sockets.emit(event.name, event.data);
@@ -29,6 +34,7 @@ function socket(server) {
 
     events.on('game/init', broadcastInit);
     events.on('game/start', broadcastStart);
+    events.on('game/updateScore', braodcastUpdateScore);
     events.on('game/updateBoard', broadcastUpdateBoard);
     events.on('game/finish', broadcastFinish);
 }
