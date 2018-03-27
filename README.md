@@ -91,7 +91,7 @@ When the server is running, you can access it on http://localhost:7777.
 | URL | Method | Request | Response |
 |:-:|:-:|:-:|:-:|
 | /game/join | POST | ```Header: Authorization: JWT <jwt>``` | ```{message: String, hasJoined: Boolean, player: {} from /game/joueur/{username}, status: Number, statusMessage: String, startTime: Number}```|
-| /game/jouer | POST | ```Header: Authorization: JWT <jwt>``` | ```{middleCard: [Number]}```|
+| /game/jouer | POST | ```Header: Authorization: JWT <jwt>, Body: {symbol:Number}``` | ```{middleCard: [Number]}```|
 | /game/infospartie | GET | | ```{id: Number, middleCard:[Number], players [{} from /game/joueur/{username}], status: Number, statusMessage: String, endTime: Number, startTime: Number, ranking: [{username: String, rank: Number}]}``` |
 | /game/joueur/{username} | GET | | ```{username: String, score: Number, card: [Number], rank: Number}```|
 
