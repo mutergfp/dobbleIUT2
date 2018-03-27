@@ -64,7 +64,7 @@ export default class extends Phaser.State {
       y+=25;
       game.add.text(x,y,(i+1)+'  '+this.tabLeaderboard[i],{ font: "20px Roboto", fill: "#FFFFFF" });
       y+=25;
-      game.add.text(x,y,"______________________",{ font: "20px Roboto", fill: "#FFFFFF" })
+      game.add.text(x,y,"________________________",{ font: "20px Roboto", fill: "#FFFFFF" })
     }
   }
 }
