@@ -43,7 +43,7 @@ export const join = (req, res) => {
             hasJoined: false
         });
     }
-    match.init(120000, 10000);
+    match.init(60000, 10000);
     res.json({  
         message: 'Vous avez rejoint la partie',
         hasJoined: true,

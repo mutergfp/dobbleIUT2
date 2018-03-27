@@ -60,9 +60,9 @@ function Match() {
         if (playerExist({username})) {
             let player = findPlayer({username});
             let isMatch = player.card.includes(symbol) && middleCard.includes(symbol);
-            /* logClick(player, isMatch, symbol)
+             logClick(player, isMatch, symbol)
                 .then(data => console.log(data))
-                .catch(err => console.error(err.message)); */
+                .catch(err => console.error(err.message));
             return isMatch;
         }
         return false;
@@ -80,9 +80,9 @@ function Match() {
             .then(response => response.data)
             .then(data => {
                 players = players.map((player, i) => {
-                    player.card = data.playersCards[i]
+                    player.card = data.playersCards[i];
                     return player;
-                })
+                });
 
                 middleCard = data.middleCard;
                 return data;
@@ -109,7 +109,7 @@ function Match() {
     function logClick({ username }, isMatch, symbol) {
         return logsAPI.logClick({ 
             idPartie: id,
-            idJoueur: player.username,
+            idJoueur: username,
             estCorrect: isMatch,
             idImage: symbol,
             timestamp: Date.now()
@@ -148,12 +148,12 @@ function Match() {
             data: getMatchInfos()
         });
 
-        /* logPlayerMatch()
+         logPlayerMatch()
             .then(dataArr => {
-                console.log(dataArr);
+                //console.log(dataArr);
                 construct();
             })
-            .catch(err => console.error(err.message)); */
+            .catch(err => console.error(err.message));
         construct();
     }
 
