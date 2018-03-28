@@ -74,6 +74,9 @@ To run the game, open your browser and enter http://localhost:3000 into the addr
 
 When the server is running, you can access it on http://localhost:7777.
 
+# Deploy
+
+```npm run prod```
 
 # Documentation
 
