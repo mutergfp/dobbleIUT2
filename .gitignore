@@ -11,3 +11,4 @@ build/
 .tern-project
 .DS_Store
 mongoDB/*
+server.js*

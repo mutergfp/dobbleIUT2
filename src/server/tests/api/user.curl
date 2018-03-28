@@ -10,3 +10,6 @@ curl -H "Content-Type: application/json" -X POST -d '{"username":"abc", "passwor
 
 # isloggedin
 curl -H "Authorization: JWT <insert_token_here>" http://localhost:7777/account/isloggedin
+
+# users
+curl http://localhost:7777/account/users

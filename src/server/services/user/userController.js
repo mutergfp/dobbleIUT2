@@ -19,7 +19,6 @@ exports.register = (req, res) => {
 exports.validateFields = (req, res, next) => {
     const { confirmPassword, password } = req.body;
     if (confirmPassword && password && confirmPassword === password) {
-        console.log('coucou');
         return next();
     }
     res.status(400).json({
@@ -79,4 +78,15 @@ exports.isLoggedIn = (req, res) => {
     res.json({
         isLoggedIn: true
     });
+}
+
+exports.users = (req, res) => {
+    User.find({}, {
+        username: true,
+        created: true
+    })
+    .then(users => res.json(users))
+    .catch(err => res.status(400).json({
+        message: err.message
+    }));
 }

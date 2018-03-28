@@ -1,10 +1,13 @@
 import Phaser from 'phaser'
+import { getCookie , postJoin, postJouer} from '../utils'
+
+const TOKEN = getCookie('id_token');
+const USERNAME = getCookie('username');
 
 export default class extends Phaser.State{
 
-  init(username){
+  init(){
     game.add.image(game.world.centerX,game.world.centerY, 'FondDeJeu').anchor.set(0.5);
-    this.username = username;
   }
 
   preload(){
@@ -12,20 +15,32 @@ export default class extends Phaser.State{
   }
 
   create(){
-    this.createButtonAndText(game.world.centerX,game.world.centerY,'ButtonNormal',
+    this.text;
+    this.createText(game.world.centerX,game.world.centerY+280,'',20,'#FF0000','Roboto')
+    this.music = game.add.audio('MainMenuMusic').play();
+    this.createButton(game.world.centerX,game.world.centerY,'PlayButton',
     function(){
-      this.state.start('Game');
-    },"Jouer");
-    this.createText(game.world.centerX,game.world.centerY-150, 'Welcome, ' + this.username,40,'#FFFFFF','Roboto');
+      postJoin(TOKEN)
+        .then(response => {
+          this.music.stop();
+          this.state.start('Game');
+        }).catch(err => {
+          this.text.setText(err.response.data.message);
+        });
+    });
 
+  }
+
+  update(){
+    if(!this.music.isPlaying){
+      this.music.play();
+    }
   }
 
   createButton(x,y,key,callback){
     var button = game.add.button(x,y,key,callback,this,2,0);
 
     button.anchor.setTo(0.5);
-    button.width = 150;
-    button.height = 40;
   }
 
   createButtonAndText(x,y,key,callback,text){
@@ -42,11 +57,11 @@ export default class extends Phaser.State{
   }
 
   createText(x,y,text,size,color,font){
-    var text = game.add.text(x,y,text);
-    text.font = font;
-    text.fontSize = size;
-    text.fill = color;
-    text.anchor.setTo(0.5);
+    this.text = game.add.text(x,y,text);
+    this.text.font = font;
+    this.text.fontSize = size;
+    this.text.fill = color;
+    this.text.anchor.setTo(0,0);
   }
 
 }

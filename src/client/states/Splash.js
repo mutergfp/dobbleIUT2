@@ -35,6 +35,11 @@ export default class extends Phaser.State {
 
     //SPRITESHEETS
     this.load.spritesheet('ButtonNormal',PATHLOCAL+'images/button/buttonNormal.png');
+    this.load.spritesheet('PlayButton',PATHLOCAL+'images/button/play-button-256.png');
+    this.load.spritesheet('soundOn',PATHLOCAL+'images/button/speaker-on.png');
+    this.load.spritesheet('soundOff',PATHLOCAL+'images/button/speaker-off.png');
+    this.load.spritesheet('returnButton',PATHLOCAL+'images/button/left-arrow.png');
+
       //BlankCard
     this.load.spritesheet('cardDeck',PATHLOCAL+'images/cardDeck.png');
     this.load.spritesheet('cardPlayer',PATHLOCAL+'images/cardPlayer.png');
@@ -42,6 +47,7 @@ export default class extends Phaser.State {
 
     //AUDIOS
     this.load.audio('MainMenuMusic',PATHLOCAL+'audio/MainMenuMusic.mp3');
+    this.load.audio('GameMusic',PATHLOCAL+'audio/GameMusic.wav');
 
     /* Load your assets here
       w/
@@ -54,7 +60,7 @@ export default class extends Phaser.State {
 
   create () {
     this.background = this.add.sprite(game.world.centerX, game.world.centerY, 'loader-bg')//.anchor.set(0.5);
-    this.preloadBar = this.add.sprite(game.world.centerX, game.world.centerY, 'loader-bar')//.anchor.set(0.5);
+    this.preloadBar = this.add.sprite(game.world.centerX, game.world.centerY, 'loader-bar')
 
     this.load.setPreloadSprite(this.preloadBar);
   }
