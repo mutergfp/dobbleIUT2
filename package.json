@@ -52,7 +52,7 @@
         "jsonwebtoken": "^8.2.0",
         "mongoose": "^5.0.9",
         "phaser-ce": "^2.10.0",
-        "socket.io": "^2.0.4",
+        "socket.io": "^2.4.0",
         "socket.io-client": "^2.0.4",
         "source-map-support": "^0.5.3",
         "tern": "^0.21.0",
